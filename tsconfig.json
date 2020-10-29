@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "graphql"],
+    "jsx": "react"
+  },
+  "exclude": [
+
+  ],
+  "include": [
+    "client/**/*",
+    "server/**/*",
+  ]
+}

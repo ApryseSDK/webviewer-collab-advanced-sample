@@ -1,0 +1,69 @@
+{
+  "name": "@pdftron/apollo-collab-sample",
+  "version": "1.0.0",
+  "description": "A sample project using the Webviewer collab packages",
+  "main": "src/index.js",
+  "repository": "https://github.com/XodoDocs/apollo-collab-sample.git",
+  "author": "Logan Bittner <lbittner@pdftron.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/react-redux": "^7.1.9",
+    "@types/redux": "^3.6.0",
+    "@types/uuid": "^8.0.0",
+    "sass": "^1.26.10",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "start-server": "ts-node server/index.ts",
+    "start-client": "parcel client/index.html --port=8000",
+    "start-db": "ts-node scripts/start-db.ts",
+    "init-db": "ts-node scripts/init-db.ts"
+  },
+  "dependencies": {
+    "@pdftron/webviewer": "^7.0.0",
+    "@types/passport": "^1.0.4",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/redux-logger": "^3.0.8",
+    "@uppy/core": "^1.12.0",
+    "@uppy/react": "^1.10.0",
+    "aws-sdk": "^2.722.0",
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "grommet": "^2.14.0",
+    "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "parcel-plugin-static-files-copy": "^2.4.3",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "polished": "^3.6.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-spinners": "^0.9.0",
+    "react-toastify": "^6.0.8",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.1",
+    "uuid": "^8.2.0",
+    "winston": "^3.3.3"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "node_modules/@pdftron/webviewer/public",
+        "staticOutDir": "public/webviewer"
+      }
+    ],
+    "watcherGlob": "**"
+  }
+}
