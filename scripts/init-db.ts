@@ -9,7 +9,7 @@ const exec = util.promisify(require('child_process').exec);
 (async () => {
 
   const scriptLocation = path.resolve(__dirname, '../node_modules/@pdftron/collab-db-postgresql');
-  const scriptName = 'init-pg';
+  const scriptName = 'init-db';
 
   const host = process.env.POSTGRES_HOST;
   const username = process.env.POSTGRES_USERNAME;
