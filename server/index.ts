@@ -80,7 +80,8 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await db.getUserByEmail(email);
   if(!user) {
-    throw new Error('User does not exit');
+    res.status(401).send();
+    return;
   }
 
   // @ts-ignore

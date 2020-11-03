@@ -31,7 +31,7 @@ export default () => {
 
   return (
     <Sidebar
-      background='brand'
+      background='neutral-2'
       height='100%'
       width='250px'
       footer={

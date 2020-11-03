@@ -36,7 +36,7 @@ export default () => {
   }, [client, currentDocument, history]);
 
   return (
-    <Header background='neutral-2' pad={{ vertical: '0px', horizontal: 'small' }} height='44px'>
+    <Header background='brand' pad={{ vertical: '0px', horizontal: 'small' }} height='44px'>
       {
         currentDocument &&
         <Text size='small'>{currentDocument.name}</Text>

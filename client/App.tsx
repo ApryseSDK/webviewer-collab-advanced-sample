@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Grommet } from 'grommet';
-import { grommet } from 'grommet/themes';
 import './App.scss';
 import {
   BrowserRouter as Router,
@@ -17,6 +16,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CollabClient from '@pdftron/collab-client';
 import { setClient } from './redux/viewer';
+import theme from './theme';
+
 
 /**
  * This component just wraps the app and sets up the collab client
@@ -57,7 +58,7 @@ const App = () => {
       <Provider store={store}>
         <WithClient>
           <div className='App'>
-            <Grommet theme={grommet}>
+            <Grommet theme={theme}>
               <Route path='/' exact>
                 <Login />
               </Route>
