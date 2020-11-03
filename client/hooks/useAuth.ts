@@ -23,9 +23,13 @@ export default () => {
         history.push('/');
         return;
       }
-      const { user: u } = await client.loginWithToken(token);
-      if (!user) {
-        dispatch(setCurrentUser(u))
+      try {
+        const { user: u } = await client.loginWithToken(token);
+        if (!user) {
+          dispatch(setCurrentUser(u))
+        }
+      } catch (e) {
+        history.push('/');
       }
     };
     fetchToken()

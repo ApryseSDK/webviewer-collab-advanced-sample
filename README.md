@@ -2,6 +2,10 @@
 
 A sample project using the [WebViewer collab modules](https://collaboration.pdftron.com/).
 
+## Demo
+
+A live fork of this repo can be viewed at [https://collab-demo.pdftron.com](https://collab-demo.pdftron.com).
+
 ## Requirements
 
 - Docker (used for the local postgres server)
