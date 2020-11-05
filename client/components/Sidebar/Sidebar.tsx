@@ -26,6 +26,7 @@ export default () => {
       credentials: 'include'
     });
     dispatch(logout());
+    await client.logout();
     history.push('/');
   }
 
