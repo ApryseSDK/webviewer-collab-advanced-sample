@@ -32,6 +32,8 @@ export default () => {
       });
   
       let docs = await paginator.next();
+
+      console.log(docs)
   
       const formattedDocs = docs.reduce((acc, doc) => {
         acc[doc.id] = doc;
@@ -107,7 +109,7 @@ export default () => {
       
 
       {
-        client && documents.map(document => {
+        client && documents.sort((d1, d2) => d2.updatedAt - d1.updatedAt).map(document => {
           return (
             <DocumentListItem document={document} />
           )

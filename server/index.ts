@@ -18,7 +18,7 @@ const db = new CollabDBPostgreSQL({
   dbName: process.env.POSTGRES_DB_NAME,
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
-  logLevel: CollabDBPostgreSQL.LogLevels.DEBUG
+  // logLevel: CollabDBPostgreSQL.LogLevels.DEBUG
 });
 
 db.connectDB();
