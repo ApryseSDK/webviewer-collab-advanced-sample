@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sidebar, Button, Text, Box } from 'grommet';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser, logout } from '../../redux/user';
@@ -8,16 +8,41 @@ import LoadingSpinner from '../LoadingSpinner';
 import { getClient } from '../../redux/viewer';
 import DocumentListItem from '../DocumentListItem';
 import { useHistory } from 'react-router-dom';
+import CollabClient from '@pdftron/collab-client';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
   const user = useSelector(getCurrentUser)
-  const documents = useSelector(getAllDocuments);
+  // const documents = useSelector(getAllDocuments);
   const isLoading = useSelector(isLoadingDocuments);
   const currentDocument = useSelector(getCurrentDocument);
-  const client = useSelector(getClient);
+  const client: CollabClient = useSelector(getClient);
   const history = useHistory();
   const dispatch = useDispatch();
+  
+  const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+
+    if (!client || !user) return;
+    const go = async () => {
+      const paginate = client.getPaginatedDocuments({
+        limit: 1
+      });
+  
+      const docs = await paginate.next();
+      console.log('DOCS', docs);
+
+      const docs2 = await paginate.next();
+      console.log('DOCS2', docs2);
+
+      const docs3 = await paginate.next();
+      console.log('DOCS3', docs3);
+    }
+
+    go();
+
+  }, [client, user])
 
   const logoutUser = async () => {
     await fetch(`${process.env.AUTH_URL}/logout`,
