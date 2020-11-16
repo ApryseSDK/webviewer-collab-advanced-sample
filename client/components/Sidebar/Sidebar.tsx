@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Sidebar, Button, Text, Box } from 'grommet';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser, logout } from '../../redux/user';
-import { getAllDocuments, isLoadingDocuments, getCurrentDocument } from '../../redux/documents';
+import { isLoadingDocuments, getCurrentDocument, setDocuments, setIsLoadingDocuments, getAllDocuments } from '../../redux/documents';
 import FileUpload from '../FileUpload/FileUpload';
 import LoadingSpinner from '../LoadingSpinner';
 import { getClient } from '../../redux/viewer';
@@ -13,36 +13,38 @@ import CollabClient from '@pdftron/collab-client';
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
   const user = useSelector(getCurrentUser)
-  // const documents = useSelector(getAllDocuments);
+  const documents = useSelector(getAllDocuments);
   const isLoading = useSelector(isLoadingDocuments);
   const currentDocument = useSelector(getCurrentDocument);
   const client: CollabClient = useSelector(getClient);
   const history = useHistory();
   const dispatch = useDispatch();
-  
-  const [documents, setDocuments] = useState([]);
 
+  /**
+   * Initial load
+   */
   useEffect(() => {
-
     if (!client || !user) return;
+
     const go = async () => {
-      const paginate = client.getPaginatedDocuments({
-        limit: 1
+      const paginator = client.getDocumentPaginator({
+        limit: 50
       });
   
-      const docs = await paginate.next();
-      console.log('DOCS', docs);
-
-      const docs2 = await paginate.next();
-      console.log('DOCS2', docs2);
-
-      const docs3 = await paginate.next();
-      console.log('DOCS3', docs3);
+      let docs = await paginator.next();
+  
+      const formattedDocs = docs.reduce((acc, doc) => {
+        acc[doc.id] = doc;
+        return acc;
+      }, {})
+  
+      dispatch(setDocuments(formattedDocs));
+      dispatch(setIsLoadingDocuments(false))
     }
 
     go();
-
   }, [client, user])
+
 
   const logoutUser = async () => {
     await fetch(`${process.env.AUTH_URL}/logout`,
@@ -111,6 +113,7 @@ export default () => {
           )
         })
       }
+
     </Sidebar>
   )
 }
