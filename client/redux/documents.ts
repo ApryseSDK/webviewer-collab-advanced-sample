@@ -39,7 +39,10 @@ export const reducer = (state=initialState, action): State => {
       {
         return {
           ...state,
-          documents: payload,
+          documents: {
+            ...state.documents,
+            ...payload
+          },
         }
       }
     case Types.ADD_DOCUMENT:
@@ -141,7 +144,7 @@ export const removeDocument = (doc: Document) => {
   }
 }
 
-export const setDocuments = (docs: Document[]) => {
+export const setDocuments = (docs: Record<string, Document>) => {
   return {
     type: Types.SET_DOCUMENTS,
     payload: docs

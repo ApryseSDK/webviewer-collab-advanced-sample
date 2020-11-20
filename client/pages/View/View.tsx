@@ -7,7 +7,7 @@ import TopNav from '../../components/TopNav';
 import useRouting from '../../hooks/useRouting';
 import CollabClient from '@pdftron/collab-client';
 import { downloadFile } from '../../util/s3';
-import { addAnnotation, addDocument, removeDocument, setCurrentDocument, setDocuments, setIsLoadingDocuments } from '../../redux/documents';
+import { addAnnotation, addDocument, removeDocument, setCurrentDocument } from '../../redux/documents';
 import useAuth from '../../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
 import { getCurrentUser } from '../../redux/user';
@@ -33,7 +33,6 @@ export default (props) => {
 
   useEffect(() => {
     if (!client || !user) return;
-    dispatch(setIsLoadingDocuments(true));
     const ele = document.getElementById('viewer');
     WebViewer(
       {
@@ -43,14 +42,6 @@ export default (props) => {
     ).then(async (instance) => {
       client.setInstance(instance);
       instance.openElements(['notesPanel']);
-      let documents = await client.getUserDocuments();
-
-      documents = documents.reduce((acc, doc) => {
-        acc[doc.id] = doc;
-        return acc;
-      }, {});
-
-      dispatch(setIsLoadingDocuments(false));
 
       client.subscribe('documentChanged', (docObj, action) => {
         if (action === 'DELETE') {
@@ -64,7 +55,6 @@ export default (props) => {
         dispatch(addAnnotation(annot));
       });
 
-      dispatch(setDocuments(documents));
       dispatch(setInstance(instance));
     });
   }, [client, user]);

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Sidebar, Button, Text, Box } from 'grommet';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser, logout } from '../../redux/user';
-import { getAllDocuments, isLoadingDocuments, getCurrentDocument } from '../../redux/documents';
+import { isLoadingDocuments, getCurrentDocument, setDocuments, setIsLoadingDocuments, getAllDocuments } from '../../redux/documents';
 import FileUpload from '../FileUpload/FileUpload';
 import LoadingSpinner from '../LoadingSpinner';
 import { getClient } from '../../redux/viewer';
 import DocumentListItem from '../DocumentListItem';
 import { useHistory } from 'react-router-dom';
+import CollabClient from '@pdftron/collab-client';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
@@ -15,9 +16,37 @@ export default () => {
   const documents = useSelector(getAllDocuments);
   const isLoading = useSelector(isLoadingDocuments);
   const currentDocument = useSelector(getCurrentDocument);
-  const client = useSelector(getClient);
+  const client: CollabClient = useSelector(getClient);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  /**
+   * Initial load
+   */
+  useEffect(() => {
+    if (!client || !user) return;
+
+    const go = async () => {
+      const paginator = client.getDocumentPaginator({
+        limit: 50
+      });
+  
+      let docs = await paginator.next();
+
+      console.log(docs)
+  
+      const formattedDocs = docs.reduce((acc, doc) => {
+        acc[doc.id] = doc;
+        return acc;
+      }, {})
+  
+      dispatch(setDocuments(formattedDocs));
+      dispatch(setIsLoadingDocuments(false))
+    }
+
+    go();
+  }, [client, user])
+
 
   const logoutUser = async () => {
     await fetch(`${process.env.AUTH_URL}/logout`,
@@ -80,12 +109,13 @@ export default () => {
       
 
       {
-        client && documents.map(document => {
+        client && documents.sort((d1, d2) => d2.updatedAt - d1.updatedAt).map(document => {
           return (
             <DocumentListItem document={document} />
           )
         })
       }
+
     </Sidebar>
   )
 }
