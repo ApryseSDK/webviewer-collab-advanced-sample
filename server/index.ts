@@ -56,11 +56,31 @@ app.post('/signup', async (req, res) => {
     password
   } = req.body;
   const passwordHash = await getHash(password);
-  const newUser = await db.createUser({
-    userName: username,
-    email,
-    password: passwordHash,
-  });
+
+  const existing = await db.getUserByEmail(email);
+  let newUser;
+  if (existing) {
+  
+    if (existing.type !== 'ANONYMOUS') {
+      return res.status(401).send({
+        error: "User already exists"
+      })
+    }
+
+    newUser = await db.editUser({
+      id: existing.id,
+      userName: username,
+      password: passwordHash,
+      type: 'STANDARD'
+    })
+  } else {
+    newUser = await db.createUser({
+      userName: username,
+      email,
+      password: passwordHash,
+    });
+  }
+
   if (newUser) {
     res.status(200).send({
       user: newUser
@@ -72,7 +92,7 @@ app.post('/signup', async (req, res) => {
 
 app.get('/token', async(req, res) => {
   res.send({
-      token: req.cookies['token']
+      token: req.cookies['wv-collab-token']
     })
 })
 
@@ -102,7 +122,7 @@ app.post('/login', async (req, res) => {
 })
 
 app.post('/logout', async (req, res) => {
-  res.clearCookie('token').send();
+  res.clearCookie('wv-collab-token').send();
 })
 
 /**

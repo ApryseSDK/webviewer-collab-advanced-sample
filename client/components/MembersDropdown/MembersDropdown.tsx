@@ -15,7 +15,7 @@ export default ({
       }}
       margin={{ right: 'small' }}
       items={members.map(member => ({
-        label: <Text size='small'>{member.user.userName}</Text>,
+        label: <Text size='small'>{member.user.userName || member.user.email}</Text>,
       }))}
     />
   )
