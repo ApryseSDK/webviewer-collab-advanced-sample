@@ -11,6 +11,7 @@ import { addAnnotation, addDocument, removeDocument, setCurrentDocument } from '
 import useAuth from '../../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
 import { getCurrentUser } from '../../redux/user';
+import { toast } from 'react-toastify';
 
 export default (props) => {
   const routerId = props?.match?.params?.id;
@@ -54,6 +55,11 @@ export default (props) => {
       client.subscribe('annotationChanged', (annot, action) => {
         dispatch(addAnnotation(annot));
       });
+
+      client.subscribe('permissionError', (docType, attemptedAction) => {
+        const noun = docType.toLowerCase();
+        toast.error(`You do not have permission to ${attemptedAction} that ${noun}`);
+      })
 
       dispatch(setInstance(instance));
     });
