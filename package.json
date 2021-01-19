@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A sample project using the Webviewer collab packages",
   "main": "src/index.js",
-  "repository": "https://github.com/XodoDocs/apollo-collab-sample.git",
+  "repository": "https://github.com/PDFTron/webviewer-collab-advanced-sample",
   "author": "Logan Bittner <lbittner@pdftron.com>",
   "license": "MIT",
   "private": true,
