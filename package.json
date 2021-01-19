@@ -12,6 +12,12 @@
     "@types/react-redux": "^7.1.9",
     "@types/redux": "^3.6.0",
     "@types/uuid": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
     "sass": "^1.26.10",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
@@ -23,7 +29,7 @@
     "init-db": "ts-node scripts/init-db.ts"
   },
   "dependencies": {
-    "@pdftron/webviewer": "^7.0.0",
+    "@pdftron/webviewer": "^7.2.0",
     "@types/passport": "^1.0.4",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
