@@ -4,64 +4,69 @@ import { v4 } from 'uuid';
 AWS.config.update({
   region: process.env.BUCKET_REGION,
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: process.env.IDENTITY_POOL_ID
-  })
+    IdentityPoolId: process.env.IDENTITY_POOL_ID,
+  }),
 });
 
 const s3 = new AWS.S3({
-  apiVersion: "2006-03-01",
-  params: { Bucket: process.env.BUCKET_NAME }
+  apiVersion: '2006-03-01',
+  params: { Bucket: process.env.BUCKET_NAME },
 });
 
 export const downloadFile = async (id: string) => {
   const key = `${id}`;
-  
-  return new Promise((resolve, reject) => {
-    s3.getObject({
-      Bucket: process.env.BUCKET_NAME,
-      Key: key,
-      
-    }, async (err, data) => {
-      if (err) {
-        return reject(err);
-      }
 
-      const params = {
+  return new Promise((resolve, reject) => {
+    s3.getObject(
+      {
         Bucket: process.env.BUCKET_NAME,
         Key: key,
-      }
-      const metaData = await s3.headObject(params).promise();
+      },
+      async (err, data) => {
+        if (err) {
+          return reject(err);
+        }
 
-      resolve({
-        blob: data.Body,
-        name: metaData.Metadata.name
-      });
-    })
-  })
-}
+        const params = {
+          Bucket: process.env.BUCKET_NAME,
+          Key: key,
+        };
+        const metaData = await s3.headObject(params).promise();
+
+        resolve({
+          blob: data.Body,
+          name: metaData.Metadata.name,
+        });
+      }
+    );
+  });
+};
 
 export const uploadFile = async (blob: Blob, name: string) => {
   const id = v4();
   const key = `${id}`;
 
   return new Promise((resolve, reject) => {
-    s3.upload({
-      Bucket: process.env.BUCKET_NAME,
-      Key: key,
-      Body: blob,
-      ContentType: 'application/pdf',
-      ACL: "public-read",
-      Metadata: {
-        name
+    s3.upload(
+      {
+        Bucket: process.env.BUCKET_NAME,
+        Key: key,
+        Body: blob,
+        ContentType: 'application/pdf',
+        ACL: 'public-read',
+        Metadata: {
+          name,
+        },
+      },
+      (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve({
+          path: data.Location,
+          id,
+        });
       }
-    }, (err, data) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve({
-        path: data.Location,
-        id
-      });
-    })
-  })
-}
+    );
+  });
+};
