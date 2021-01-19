@@ -1,13 +1,18 @@
-import React, { useEffect  } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'grommet';
-import {  getClient, getInstance, setInstance } from '../../redux/viewer';
+import { getClient, getInstance, setInstance } from '../../redux/viewer';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import TopNav from '../../components/TopNav';
 import useRouting from '../../hooks/useRouting';
 import CollabClient from '@pdftron/collab-client';
 import { downloadFile } from '../../util/s3';
-import { addAnnotation, addDocument, removeDocument, setCurrentDocument } from '../../redux/documents';
+import {
+  addAnnotation,
+  addDocument,
+  removeDocument,
+  setCurrentDocument,
+} from '../../redux/documents';
 import useAuth from '../../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
 import { getCurrentUser } from '../../redux/user';
@@ -27,8 +32,8 @@ export default (props) => {
     if (routerId) {
       setViewPath({
         documentId: routerId,
-        annotationId: routerAnnotId
-      })
+        annotationId: routerAnnotId,
+      });
     }
   }, [routerId, routerAnnotId]);
 
@@ -59,7 +64,7 @@ export default (props) => {
       client.subscribe('permissionError', (docType, attemptedAction) => {
         const noun = docType.toLowerCase();
         toast.error(`You do not have permission to ${attemptedAction} that ${noun}`);
-      })
+      });
 
       dispatch(setInstance(instance));
     });
@@ -73,20 +78,20 @@ export default (props) => {
 
         // @ts-ignore
         const { blob, name } = await downloadFile(routerId);
-       
+
         const result = await client.loadDocument(blob, {
           // @ts-ignore
           documentId: routerId,
-          filename: name
-        })
-        
+          filename: name,
+        });
+
         if (result) {
-          dispatch(setCurrentDocument(result))
+          dispatch(setCurrentDocument(result));
         }
       }
-    }
+    };
     go();
-  }, [routerId, client, instance])
+  }, [routerId, client, instance]);
 
   // Select the annotation when the annotation in the URL is updated
   useEffect(() => {
@@ -97,21 +102,18 @@ export default (props) => {
         instance.openElements(['notesPanel']);
       }
     }
-  }, [routerAnnotId, instance])
+  }, [routerAnnotId, instance]);
 
   return (
-    <Box height='100%'>
-      
-      <Box direction='row' height='100%'>
+    <Box height="100%">
+      <Box direction="row" height="100%">
+        <Sidebar />
 
-        <Sidebar/>
-
-        <Box width='100%' height='100%'>
+        <Box width="100%" height="100%">
           <TopNav />
-          <div id='viewer' style={{ height: '100%', width: '100%' }}></div>
+          <div id="viewer" style={{ height: '100%', width: '100%' }}></div>
         </Box>
       </Box>
     </Box>
-    
-  )
-} 
+  );
+};
