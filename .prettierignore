@@ -1,0 +1,7 @@
+.cache
+dist
+node_modules
+.env
+.gitignore
+package.json
+tsconfig.json

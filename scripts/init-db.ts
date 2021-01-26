@@ -7,7 +7,6 @@ dotenv.config();
 const exec = util.promisify(require('child_process').exec);
 
 (async () => {
-
   const scriptLocation = path.resolve(__dirname, '../node_modules/@pdftron/collab-db-postgresql');
   const scriptName = 'init-db';
 
@@ -21,7 +20,7 @@ const exec = util.promisify(require('child_process').exec);
   const { stdout, stderr } = await exec(command);
 
   if (stdout) {
-    console.log(stdout)
+    console.log(stdout);
   }
 
   if (stderr) {
@@ -30,4 +29,4 @@ const exec = util.promisify(require('child_process').exec);
   }
 
   console.log('Done!');
-})()
+})();

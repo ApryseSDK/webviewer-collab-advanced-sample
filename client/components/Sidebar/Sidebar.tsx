@@ -2,7 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Sidebar, Button, Text, Box } from 'grommet';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser, logout } from '../../redux/user';
-import { isLoadingDocuments, getCurrentDocument, setDocuments, setIsLoadingDocuments, getAllDocuments } from '../../redux/documents';
+import {
+  isLoadingDocuments,
+  getCurrentDocument,
+  setDocuments,
+  setIsLoadingDocuments,
+  getAllDocuments,
+} from '../../redux/documents';
 import FileUpload from '../FileUpload/FileUpload';
 import LoadingSpinner from '../LoadingSpinner';
 import { getClient } from '../../redux/viewer';
@@ -12,7 +18,7 @@ import CollabClient from '@pdftron/collab-client';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
-  const user = useSelector(getCurrentUser)
+  const user = useSelector(getCurrentUser);
   const documents = useSelector(getAllDocuments);
   const isLoading = useSelector(isLoadingDocuments);
   const currentDocument = useSelector(getCurrentDocument);
@@ -28,94 +34,84 @@ export default () => {
 
     const go = async () => {
       const paginator = client.getDocumentPaginator({
-        limit: 50
+        limit: 50,
       });
-  
+
       let docs = await paginator.next();
 
-      console.log(docs)
-  
+      console.log(docs);
+
       const formattedDocs = docs.reduce((acc, doc) => {
         acc[doc.id] = doc;
         return acc;
-      }, {})
-  
+      }, {});
+
       dispatch(setDocuments(formattedDocs));
-      dispatch(setIsLoadingDocuments(false))
-    }
+      dispatch(setIsLoadingDocuments(false));
+    };
 
     go();
-  }, [client, user])
-
+  }, [client, user]);
 
   const logoutUser = async () => {
-    await fetch(`${process.env.AUTH_URL}/logout`,
-    {
+    await fetch(`${process.env.AUTH_URL}/logout`, {
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
     });
     dispatch(logout());
     await client.logout();
     history.push('/');
-  }
+  };
 
   return (
     <Sidebar
-      background='neutral-2'
-      height='100%'
-      width='250px'
+      background="neutral-2"
+      height="100%"
+      width="250px"
       footer={
         <>
-          {
-            !!currentDocument &&
-            <Box direction='row' justify='between'>
-              
-            </Box>
-          }
-          
+          {!!currentDocument && <Box direction="row" justify="between"></Box>}
+
           <Button
             onClick={() => setShowNewDoc(true)}
-            label='New doc'
+            label="New doc"
             primary
-            size='small'
+            size="small"
             icon={<>+</>}
             margin={{ bottom: 'small' }}
           />
-          <Text textAlign='center' size='small' margin={{bottom: 'small'}}>{user?.email}</Text>
-          <Text size='xsmall' textAlign='center' onClick={logoutUser}>Logout</Text>
+          <Text textAlign="center" size="small" margin={{ bottom: 'small' }}>
+            {user?.email}
+          </Text>
+          <Text size="xsmall" textAlign="center" onClick={logoutUser}>
+            Logout
+          </Text>
         </>
       }
     >
+      {showNewDoc && <FileUpload onExit={() => setShowNewDoc(false)} />}
 
-      {
-        showNewDoc &&
-        <FileUpload onExit={() => setShowNewDoc(false)}/>
-      }
+      <Text
+        size="small"
+        weight="bold"
+        margin={{
+          bottom: 'small',
+          top: 'small',
+        }}
+      >
+        Your documents
+      </Text>
 
-      <Text size='small' weight='bold' margin={{
-        bottom: 'small',
-        top: 'small'
-      }}>Your documents</Text>
+      {documents.length === 0 && !isLoading && <Text size="small">You have no documents!</Text>}
 
-      {
-        documents.length === 0 && !isLoading &&
-        <Text size='small'>You have no documents!</Text>
-      }
+      {isLoading && <LoadingSpinner style={{ marginTop: '50px' }} />}
 
-      {
-        isLoading &&
-        <LoadingSpinner style={{marginTop: '50px'}} />
-      }
-      
-
-      {
-        client && documents.sort((d1, d2) => d2.updatedAt - d1.updatedAt).map(document => {
-          return (
-            <DocumentListItem document={document} />
-          )
-        })
-      }
-
+      {client &&
+        documents
+          .sort((d1, d2) => d2.updatedAt - d1.updatedAt)
+          .map((document) => {
+            return <DocumentListItem document={document} />;
+          })}
     </Sidebar>
-  )
-}
+  );
+};

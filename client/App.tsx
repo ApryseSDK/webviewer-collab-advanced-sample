@@ -2,12 +2,8 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Grommet } from 'grommet';
 import './App.scss';
-import {
-  BrowserRouter as Router,
-  Route,
-  useHistory,
-} from "react-router-dom";
-import { Provider, useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
+import { Provider, useDispatch } from 'react-redux';
 import store from './redux/store';
 import Login from './pages/Login/Login';
 import View from './pages/View/View';
@@ -17,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import CollabClient from '@pdftron/collab-client';
 import { setClient } from './redux/viewer';
 import theme from './theme';
-
 
 /**
  * This component just wraps the app and sets up the collab client
@@ -42,45 +37,40 @@ const WithClient = ({ children }) => {
         },
       }),
     });
-  
+
     dispatch(setClient(client));
-  }, [])
+  }, []);
 
   return children;
-}
+};
 const App = () => {
   return (
     <Router>
-      <ToastContainer
-        position='top-center'
-        closeOnClick
-      />
+      <ToastContainer position="top-center" closeOnClick />
       <Provider store={store}>
         <WithClient>
-          <div className='App'>
+          <div className="App">
             <Grommet theme={theme}>
-              <Route path='/' exact>
+              <Route path="/" exact>
                 <Login />
               </Route>
 
-              <Route path='/signup' exact>
+              <Route path="/signup" exact>
                 <SignUp />
               </Route>
 
-                <Route
-                  path={['/view/:id/:annotId', '/view/:id', '/view']}
-                  render={routeProps => {
-                    return (
-                      <View {...routeProps} />
-                    )
-                  }}
-                />
-              </Grommet>
-            </div>
-          </WithClient>
+              <Route
+                path={['/view/:id/:annotId', '/view/:id', '/view']}
+                render={(routeProps) => {
+                  return <View {...routeProps} />;
+                }}
+              />
+            </Grommet>
+          </div>
+        </WithClient>
       </Provider>
     </Router>
-  )
-}
+  );
+};
 
-ReactDOM.render((<App />), document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

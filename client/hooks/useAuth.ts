@@ -18,20 +18,20 @@ export default () => {
   useEffect(() => {
     if (!client) return;
     const fetchToken = async () => {
-      const token = user?.token || await getToken();
-      if(!token) {
+      const token = user?.token || (await getToken());
+      if (!token) {
         history.push('/');
         return;
       }
       try {
         const { user: u } = await client.loginWithToken(token);
         if (!user) {
-          dispatch(setCurrentUser(u))
+          dispatch(setCurrentUser(u));
         }
       } catch (e) {
         history.push('/');
       }
     };
-    fetchToken()
-  }, [user, client])
-}
+    fetchToken();
+  }, [user, client]);
+};

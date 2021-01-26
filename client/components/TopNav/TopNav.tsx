@@ -11,7 +11,6 @@ import CollabClient from '@pdftron/collab-client';
 import { useHistory } from 'react-router-dom';
 
 export default () => {
-
   const currentDocument = useSelector(getCurrentDocument);
   const currentUser = useSelector(getCurrentUser);
   const [showFileEdit, setShowFileEdit] = useState(false);
@@ -22,8 +21,8 @@ export default () => {
 
   const isMember = useMemo(() => {
     if (!currentDocument || !currentUser) return null;
-    return currentDocument.members.some(member => member.user.id === currentUser.id);
-  }, [currentUser, currentDocument])
+    return currentDocument.members.some((member) => member.user.id === currentUser.id);
+  }, [currentUser, currentDocument]);
 
   const joinDocument = useCallback(() => {
     client.joinDocument(currentDocument.id);
@@ -36,79 +35,47 @@ export default () => {
   }, [client, currentDocument, history]);
 
   return (
-    <Header background='brand' pad={{ vertical: '0px', horizontal: 'small' }} height='44px'>
-      {
-        currentDocument &&
-        <Text size='small'>{currentDocument.name}</Text>
-      }
+    <Header background="brand" pad={{ vertical: '0px', horizontal: 'small' }} height="44px">
+      {currentDocument && <Text size="small">{currentDocument.name}</Text>}
 
-      {
-        currentDocument && currentDocument.isPublic && !isMember &&
-        <Button
-          label='Join document'
-          primary
-          size='small'
-          onClick={joinDocument}
-        />
-      }
+      {currentDocument && currentDocument.isPublic && !isMember && (
+        <Button label="Join document" primary size="small" onClick={joinDocument} />
+      )}
 
-      
+      {showFileEdit && (
+        <FileEdit onExit={() => setShowFileEdit(false)} document={currentDocument} />
+      )}
 
-      {
-        showFileEdit &&
-        <FileEdit
-          onExit={() => setShowFileEdit(false)}
-          document={currentDocument}
-        />
-      }
-
-      {
-        showInviteModal &&
-        <InviteModal
-          onExit={() => setShowInviteModal(false)}
-          document={currentDocument}
-        />
-      }
-      {
-        currentDocument &&
-        <Box direction='row' height='100%'>
-
+      {showInviteModal && (
+        <InviteModal onExit={() => setShowInviteModal(false)} document={currentDocument} />
+      )}
+      {currentDocument && (
+        <Box direction="row" height="100%">
           <MembersDropdown members={currentDocument.members} />
 
-          <Box direction='row' pad={{ vertical: 'xsmall' }}>
-
-            {
-              isMember &&
-              <Button
-                label='Leave document'
-                secondary
-                size='small'
-                onClick={leaveDocument}
-              />
-            }
+          <Box direction="row" pad={{ vertical: 'xsmall' }}>
+            {isMember && (
+              <Button label="Leave document" secondary size="small" onClick={leaveDocument} />
+            )}
 
             <Button
               onClick={() => setShowInviteModal(true)}
-              label='Invite'
+              label="Invite"
               primary
-              size='small'
-              margin={{left: 'xsmall'}}
+              size="small"
+              margin={{ left: 'xsmall' }}
             />
 
             <Button
               onClick={() => setShowFileEdit(true)}
-              label='Edit'
+              label="Edit"
               secondary
-              size='small'
-              margin={{left: 'xsmall'}}
+              size="small"
+              margin={{ left: 'xsmall' }}
             />
           </Box>
-
-          
         </Box>
-      }
-
-
+      )}
     </Header>
-  )
-}
+  );
+};
