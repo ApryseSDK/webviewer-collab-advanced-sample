@@ -27,10 +27,11 @@ export default () => {
   }, [currentUser, currentDocument]);
 
   useEffect(() => {
+    if (!client || !currentDocument) return;
+    let scrollSyncStatusChangedUnsub = null;
     const go = async () => {
-      if (!client || !currentDocument) return;
       setScrollSyncAvailable(await client.scrollSyncAvailable());
-      client.subscribe('scrollSyncStatusChanged', (available) => {
+      scrollSyncStatusChangedUnsub = client.subscribe('scrollSyncStatusChanged', (available) => {
         if (available) {
           setScrollSyncAvailable(true);
         } else {
@@ -40,6 +41,9 @@ export default () => {
       });
     };
     go();
+    return () => {
+      scrollSyncStatusChangedUnsub();
+    };
   }, [client, currentDocument]);
 
   const joinDocument = useCallback(() => {
