@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Header, Text, Button, Box } from 'grommet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentDocument, setCurrentDocument } from '../../redux/documents';
@@ -15,6 +15,8 @@ export default () => {
   const currentUser = useSelector(getCurrentUser);
   const [showFileEdit, setShowFileEdit] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [scrollSyncAvailable, setScrollSyncAvailable] = useState(false);
+  const [inScrollSync, setScrollSync] = useState(false);
   const client: CollabClient = useSelector(getClient);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -23,6 +25,26 @@ export default () => {
     if (!currentDocument || !currentUser) return null;
     return currentDocument.members.some((member) => member.user.id === currentUser.id);
   }, [currentUser, currentDocument]);
+
+  useEffect(() => {
+    if (!client || !currentDocument) return;
+    let scrollSyncStatusChangedUnsub = null;
+    const go = async () => {
+      setScrollSyncAvailable(await client.scrollSyncAvailable());
+      scrollSyncStatusChangedUnsub = client.subscribe('scrollSyncStatusChanged', (available) => {
+        if (available) {
+          setScrollSyncAvailable(true);
+        } else {
+          setScrollSyncAvailable(false);
+          setScrollSync(false);
+        }
+      });
+    };
+    go();
+    return () => {
+      scrollSyncStatusChangedUnsub();
+    };
+  }, [client, currentDocument]);
 
   const joinDocument = useCallback(() => {
     client.joinDocument(currentDocument.id);
@@ -33,6 +55,16 @@ export default () => {
     history.push('/view');
     dispatch(setCurrentDocument(null));
   }, [client, currentDocument, history]);
+
+  const joinScrollSync = useCallback(() => {
+    client.joinScrollSync();
+    setScrollSync(true);
+  }, [client]);
+
+  const leaveScrollSync = useCallback(() => {
+    client.leaveScrollSync();
+    setScrollSync(false);
+  }, [client]);
 
   return (
     <Header background="brand" pad={{ vertical: '0px', horizontal: 'small' }} height="44px">
@@ -56,6 +88,25 @@ export default () => {
           <Box direction="row" pad={{ vertical: 'xsmall' }}>
             {isMember && (
               <Button label="Leave document" secondary size="small" onClick={leaveDocument} />
+            )}
+            {scrollSyncAvailable && !inScrollSync && (
+              <Button
+                label="Join scroll sync"
+                secondary
+                size="small"
+                onClick={joinScrollSync}
+                margin={{ left: 'xsmall' }}
+              />
+            )}
+
+            {scrollSyncAvailable && inScrollSync && (
+              <Button
+                label="Leave scroll sync"
+                secondary
+                size="small"
+                onClick={leaveScrollSync}
+                margin={{ left: 'xsmall' }}
+              />
             )}
 
             <Button

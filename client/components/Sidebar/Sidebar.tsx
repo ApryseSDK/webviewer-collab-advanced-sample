@@ -37,9 +37,7 @@ export default () => {
         limit: 50,
       });
 
-      let docs = await paginator.next();
-
-      console.log(docs);
+      const docs = await paginator.next();
 
       const formattedDocs = docs.reduce((acc, doc) => {
         acc[doc.id] = doc;
@@ -110,7 +108,7 @@ export default () => {
         documents
           .sort((d1, d2) => d2.updatedAt - d1.updatedAt)
           .map((document) => {
-            return <DocumentListItem document={document} />;
+            return <DocumentListItem key={document.id} document={document} />;
           })}
     </Sidebar>
   );
