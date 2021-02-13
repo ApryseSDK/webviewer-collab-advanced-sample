@@ -42,6 +42,8 @@ export default () => {
     };
     go();
     return () => {
+      setScrollSyncAvailable(false);
+      setScrollSync(false);
       scrollSyncStatusChangedUnsub();
     };
   }, [client, currentDocument]);
