@@ -44,7 +44,7 @@ export default () => {
     return () => {
       setScrollSyncAvailable(false);
       setScrollSync(false);
-      scrollSyncStatusChangedUnsub();
+      scrollSyncStatusChangedUnsub && scrollSyncStatusChangedUnsub();
     };
   }, [client, currentDocument]);
 
