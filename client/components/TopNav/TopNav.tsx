@@ -68,6 +68,10 @@ export default () => {
     setScrollSync(false);
   }, [client]);
 
+  const markAllAnnotationsAsRead = useCallback(()=> {
+    client.markAllAnnotationsAsRead(currentDocument.id);
+  }, [client, currentDocument]);
+
   return (
     <Header background="brand" pad={{ vertical: '0px', horizontal: 'small' }} height="44px">
       {currentDocument && <Text size="small">{currentDocument.name}</Text>}
@@ -125,6 +129,14 @@ export default () => {
               secondary
               size="small"
               margin={{ left: 'xsmall' }}
+            />
+
+            <Button
+              label='Mark all as Read'
+              primary
+              size='small'
+              onClick={markAllAnnotationsAsRead}
+              margin={{left: 'xsmall'}}
             />
           </Box>
         </Box>
