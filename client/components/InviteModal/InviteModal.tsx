@@ -15,8 +15,12 @@ export default ({ onExit, document }) => {
         onExit();
         return;
       }
-      await client.inviteUsersToDocument(document.id, list);
-      toast.success('Success!');
+      try {
+        await client.inviteUsersToDocument(document.id, list);
+        toast.success('Success!');
+      } catch (e) {
+        toast.error('Error: No permission or user is already invited.');
+      }
       onExit();
     },
     [client, document]
