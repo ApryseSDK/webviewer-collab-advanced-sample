@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@pdftron/collab-client": "^1.0.0",
-    "@pdftron/collab-db-postgresql": "^1.0.0",
-    "@pdftron/collab-server": "^1.0.0",
+    "@pdftron/collab-db-postgresql": "^1.0.1",
+    "@pdftron/collab-server": "^1.0.1",
     "@pdftron/webviewer": "^7.3.0",
     "@types/passport": "^1.0.4",
     "@types/react": "^16.9.43",
