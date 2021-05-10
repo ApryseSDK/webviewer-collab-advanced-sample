@@ -30,7 +30,6 @@ export default ({ onExit }) => {
 
       // @ts-ignore
       const result = await client.loadDocument(selectedFile.data, {
-        // @ts-ignore
         documentId: id,
       });
 

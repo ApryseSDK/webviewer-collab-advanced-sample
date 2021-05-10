@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-types';
 
 dotenv.config();
 
@@ -66,7 +67,7 @@ app.post('/signup', async (req, res) => {
       id: existing.id,
       userName: username,
       password: passwordHash,
-      type: 'STANDARD',
+      type: 'STANDARD' as UserTypes,
     });
   } else {
     newUser = await db.createUser({
