@@ -10,7 +10,7 @@ const exec = util.promisify(require('child_process').exec);
   const scriptLocation = path.resolve(__dirname, '../node_modules/@pdftron/collab-db-postgresql');
   const scriptName = 'start-local-db';
   const password = process.env.POSTGRES_PASSWORD;
-  const command = `cd ${scriptLocation} && yarn ${scriptName} --password=${password}`;
+  const command = `cd ${scriptLocation} && yarn ${scriptName} --password=${password} -n collab-demo-advanced -p ${process.env.POSTGRES_PORT} -d ${process.env.POSTGRES_MOUNT}`;
 
   const { stdout, stderr } = await exec(command);
 

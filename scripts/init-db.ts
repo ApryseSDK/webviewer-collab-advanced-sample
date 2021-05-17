@@ -14,8 +14,9 @@ const exec = util.promisify(require('child_process').exec);
   const username = process.env.POSTGRES_USERNAME;
   const password = process.env.POSTGRES_PASSWORD;
   const dbName = process.env.POSTGRES_DB_NAME;
+  const port = process.env.POSTGRES_PORT;
 
-  const command = `cd ${scriptLocation} && yarn ${scriptName} --host=${host} --username=${username} --password=${password} --dbName=${dbName}`;
+  const command = `cd ${scriptLocation} && yarn ${scriptName} --host=${host} --username=${username} --password=${password} --dbName=${dbName} --port=${port}`;
 
   const { stdout, stderr } = await exec(command);
 

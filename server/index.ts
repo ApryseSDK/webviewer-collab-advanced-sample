@@ -15,7 +15,7 @@ dotenv.config();
  */
 const db = new CollabDBPostgreSQL({
   host: process.env.POSTGRES_HOST,
-  port: 5432,
+  port: Number(process.env.POSTGRES_PORT),
   dbName: process.env.POSTGRES_DB_NAME,
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
