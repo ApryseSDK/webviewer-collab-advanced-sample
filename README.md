@@ -42,6 +42,10 @@ The following environment variables are required:
 
 **`POSTGRES_PASSWORD`** The password to use when connecting to your database
 
+**`POSTGRES_PORT`** The port to run Postgres on. Should normally be set to `5432`
+
+**`POSTGRES_MOUNT`** A location to mount the Postgres DB to.
+
 **`SERVER_URL`** The URL of where the server will be running. For local testing you can set this to `http://localhost:3000`
 
 **`SUBSCRIBE_URL`** The websocket URL of the server. For local testing you can set this to `ws://localhost:3000/subscribe`
