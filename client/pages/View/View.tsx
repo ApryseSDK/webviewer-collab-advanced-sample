@@ -47,7 +47,7 @@ export default (props) => {
       ele
     ).then(async (instance) => {
       client.setInstance(instance);
-      instance.openElements(['notesPanel']);
+      instance.UI.openElements(['notesPanel']);
 
       client.subscribe('documentChanged', (docObj, action) => {
         if (action === 'DELETE') {
@@ -96,10 +96,11 @@ export default (props) => {
   // Select the annotation when the annotation in the URL is updated
   useEffect(() => {
     if (instance) {
-      const annot = instance.annotManager.getAnnotationById(routerAnnotId);
+      const { Core, UI } = instance;
+      const annot = Core.annotationManager.getAnnotationById(routerAnnotId);
       if (annot) {
-        instance.annotManager.selectAnnotation(annot);
-        instance.openElements(['notesPanel']);
+        Core.annotationManager.selectAnnotation(annot);
+        UI.openElements(['notesPanel']);
       }
     }
   }, [routerAnnotId, instance]);

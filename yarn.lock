@@ -1186,19 +1186,19 @@
     lodash "^4.17.20"
     subscriptions-transport-ws "^0.9.16"
 
-"@pdftron/collab-db-postgresql@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-1.0.1.tgz#356d4ef260117ae485f8602fefd03db91fed35cd"
-  integrity sha512-pIyP38mIi+nKLmMVHSMrjeSINSXSIYaaK/iwZskfu56Nn75Be9S7RFxJznz7GfWlZZly5ZtIYPsGU710yvGeSQ==
+"@pdftron/collab-db-postgresql@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-1.0.3.tgz#ddda544520691851f4caef70b59fcd77c2f2a8ef"
+  integrity sha512-VLkxKYcwD4OhoYY3lXETUU6rhAlLhYgEdIkSayf3lQ+rove3fAhcw+vvlVGoR8unniE8H/Im72KWNCAB6VC0KA==
   dependencies:
     "@types/pg" "^7.14.3"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-1.0.1.tgz#bc75d15585c3fe392114b8509df3c031b2212b91"
-  integrity sha512-qEFYGAflGXNcpSaesoS9xCvymFJd8syUNlCDJUHDAfLfqmOYz9SJJu2prGvASj1nyX3q2VKZUBEmm1yp+9z2vA==
+"@pdftron/collab-server@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-1.0.3.tgz#b1171087b5fb4e45e0ac339c75cd931902a2ffe5"
+  integrity sha512-jBi54zFUhgBlmWco2+h6HznCcdTmhbCrYtqOzGB7UuzYVf/CiEmZIOLPtaoi0D7RSrcfiCkNgbrHeStdzdG6WQ==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^2.14.1"
@@ -1208,10 +1208,10 @@
     pg "^8.3.0"
     ts-node "^9.0.0"
 
-"@pdftron/webviewer@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-7.3.0.tgz#7ea30984ac9239e3e0307f462dbfac697ddb4471"
-  integrity sha512-IbVGUKBUqks/S9gSdwxhzB5NRyfHF/HT6uDw2jwqqkGSrmCKxQs0ou+C0bqYiuitQi7iMbLAyPpjW4tNfAVqhA==
+"@pdftron/webviewer@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-8.0.0.tgz#d5e82dd6abb445f552824a498cbd5db165384a38"
+  integrity sha512-gTm3JEY6CWbIJiezEwfUWS0houHpZN0uOIpKf73en1hq6EUbJmpKNt8V2FBlxNn3YFjt+XCU62btLfZtWpWRPw==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
