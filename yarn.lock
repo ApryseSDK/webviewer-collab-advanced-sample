@@ -1094,6 +1094,18 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@hapi/hoek@^9.0.0":
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
+  integrity sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
+
+"@hapi/topo@^5.0.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-5.1.0.tgz#dc448e332c6c6e37a4dc02fd84ba8d44b9afb012"
+  integrity sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
 "@iarna/toml@^2.2.0":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
@@ -1174,10 +1186,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-1.0.0.tgz#9a9054ababbae5f2ce0983b94f1138d67f7f714f"
-  integrity sha512-wDM45GU17wkqOIlEpOcN5vl002dxr6sfnbdgcRkoyYXp/8MTJOr2a4Q+Mweo1Fj/qx6lar0XS06e15r6mm3WCg==
+"@pdftron/collab-client@^2.0.0-alpha.4":
+  version "2.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.4.tgz#aaf59f01075cd1d317206c1e594a4665a077475f"
+  integrity sha512-C6KFX+nxXA8y4QTelVqGlWdaTL99gzy2BmUPXey7d3GSG9E4OXoSPgss6RsHYVK5xR7rFUyZSlpbRVSj/G6xCw==
   dependencies:
     apollo-boost "^0.4.9"
     apollo-link-context "^1.0.20"
@@ -1186,32 +1198,34 @@
     lodash "^4.17.20"
     subscriptions-transport-ws "^0.9.16"
 
-"@pdftron/collab-db-postgresql@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-1.0.1.tgz#356d4ef260117ae485f8602fefd03db91fed35cd"
-  integrity sha512-pIyP38mIi+nKLmMVHSMrjeSINSXSIYaaK/iwZskfu56Nn75Be9S7RFxJznz7GfWlZZly5ZtIYPsGU710yvGeSQ==
+"@pdftron/collab-db-postgresql@^2.0.0-alpha.3":
+  version "2.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.3.tgz#6cf62c831d6c80f35023712038f14ccaab68ee50"
+  integrity sha512-Ziau3Auta0MI+5PXa0ryuZkZBm7I2lDCBscn/V9pXe/PsrVLCm8BvWdfI82phpff7DNTt+f1VsGEypdC/OC51A==
   dependencies:
     "@types/pg" "^7.14.3"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-1.0.1.tgz#bc75d15585c3fe392114b8509df3c031b2212b91"
-  integrity sha512-qEFYGAflGXNcpSaesoS9xCvymFJd8syUNlCDJUHDAfLfqmOYz9SJJu2prGvASj1nyX3q2VKZUBEmm1yp+9z2vA==
+"@pdftron/collab-server@^2.0.0-alpha.4":
+  version "2.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.4.tgz#61613d6052fa456ffbdd047637350ad16a41ef14"
+  integrity sha512-S2aCkZU4V9AweysoxNPyemiw9TfUB+Z5JISyauXV4aXws+JfXAul/+VX27SHcWKbYav8uC0KAuitg8zY1tsXyw==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^2.14.1"
     cookie "^0.4.1"
     graphql "^15.1.0"
+    joi "^17.4.0"
     jsonwebtoken "^8.5.1"
+    lodash.xor "^4.5.0"
     pg "^8.3.0"
     ts-node "^9.0.0"
 
-"@pdftron/webviewer@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-7.3.0.tgz#7ea30984ac9239e3e0307f462dbfac697ddb4471"
-  integrity sha512-IbVGUKBUqks/S9gSdwxhzB5NRyfHF/HT6uDw2jwqqkGSrmCKxQs0ou+C0bqYiuitQi7iMbLAyPpjW4tNfAVqhA==
+"@pdftron/webviewer@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-8.0.0.tgz#d5e82dd6abb445f552824a498cbd5db165384a38"
+  integrity sha512-gTm3JEY6CWbIJiezEwfUWS0houHpZN0uOIpKf73en1hq6EUbJmpKNt8V2FBlxNn3YFjt+XCU62btLfZtWpWRPw==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -1265,6 +1279,23 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
+
+"@sideway/address@^4.1.0":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.2.tgz#811b84333a335739d3969cfc434736268170cad1"
+  integrity sha512-idTz8ibqWFrPU8kMirL0CoPH/A29XOzzAzpyN3zQ4kAWnzmNfFmRaoMNN6VI8ske5M73HZyhIaW4OuSFIdM4oA==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
+"@sideway/formula@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@sideway/formula/-/formula-3.0.0.tgz#fe158aee32e6bd5de85044be615bc08478a0a13c"
+  integrity sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg==
+
+"@sideway/pinpoint@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
+  integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
 "@transloadit/prettier-bytes@0.0.7":
   version "0.0.7"
@@ -5321,6 +5352,17 @@ jmespath@0.15.0:
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
+joi@^17.4.0:
+  version "17.4.1"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-17.4.1.tgz#15d2f23c8cbe4d1baded2dd190c58f8dbe11cca0"
+  integrity sha512-gDPOwQ5sr+BUxXuPDGrC1pSNcVR/yGGcTI0aCnjYxZEa3za60K/iCQ+OFIkEHWZGVCUcUlXlFKvMmrlmxrG6UQ==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+    "@hapi/topo" "^5.0.0"
+    "@sideway/address" "^4.1.0"
+    "@sideway/formula" "^3.0.0"
+    "@sideway/pinpoint" "^2.0.0"
+
 js-cookie@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
@@ -5602,6 +5644,11 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
+
+lodash.xor@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.xor/-/lodash.xor-4.5.0.tgz#4d48ed7e98095b0632582ba714d3ff8ae8fb1db6"
+  integrity sha1-TUjtfpgJWwYyWCunFNP/iuj7HbY=
 
 lodash@^4.17.11, lodash@^4.17.19:
   version "4.17.19"

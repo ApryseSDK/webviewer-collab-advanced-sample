@@ -1,4 +1,4 @@
-import { CollabClient } from '@pdftron/collab-client';
+import CollabClient from '@pdftron/collab-client';
 import { WebViewerInstance } from '@pdftron/webviewer';
 
 type State = {

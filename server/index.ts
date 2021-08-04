@@ -13,6 +13,11 @@ dotenv.config();
 /**
  * Collaboration server
  */
+const corsOption = {
+  origin: true,
+  credentials: true,
+};
+
 const db = new CollabDBPostgreSQL({
   host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT),
@@ -22,24 +27,18 @@ const db = new CollabDBPostgreSQL({
   // logLevel: CollabDBPostgreSQL.LogLevels.DEBUG
 });
 
-db.connectDB();
+(async () => {
+  await db.connectDB();
 
-const resolvers = db.getResolvers();
-const corsOption = {
-  origin: true,
-  credentials: true,
-};
+  const server = new CollabServer({
+    resolvers: db.getResolvers(),
+    corsOption,
+    getUserFromToken,
+    logLevel: CollabServer.LogLevels.DEBUG,
+  });
 
-const server = new CollabServer({
-  resolvers,
-  corsOption,
-  getUserFromToken,
-  logLevel: CollabServer.LogLevels.DEBUG,
-});
-
-//@ts-ignore
-db.setServer(server);
-server.start(3000);
+  server.start(3000);
+})();
 
 const app = express();
 

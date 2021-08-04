@@ -1,4 +1,3 @@
-import CollabDBPostgreSQL from '@pdftron/collab-db-postgresql';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const saltRounds = 10;
