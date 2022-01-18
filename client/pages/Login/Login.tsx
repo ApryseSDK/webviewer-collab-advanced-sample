@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Heading, Form, FormField, TextInput, Button, Text, Anchor } from 'grommet';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentUser } from '../../redux/user';
+import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
 import { useHistory } from 'react-router-dom';
-import { getClient } from '../../redux/viewer';
-import CollabClient from '@pdftron/collab-client';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useClient } from '../../context/client';
+import { useUser } from '../../context/user';
 
 export default () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const [error, setError] = useState<string>();
-  const client: CollabClient = useSelector(getClient);
+  const client = useClient();
+  const { setUser } = useUser();
   const [canLogin, setCanLogin] = useState(false);
 
   useEffect(() => {
     const go = async () => {
-      const session = await client.getUserSession({ signInIfExists: true });
-      if (session) {
-        dispatch(setCurrentUser(session));
+      const user = await client.getUserSession();
+      setUser(user);
+      if (user) {
         history.push('/view');
       } else {
         setCanLogin(true);
@@ -46,8 +44,8 @@ export default () => {
     if (resp.status === 200) {
       const json = await resp.json();
       setError(null);
-      const { user } = await client.loginWithToken(json.token);
-      dispatch(setCurrentUser(user));
+      const user = await client.loginWithToken(json.token);
+      setUser(user);
       history.push('/view');
     } else {
       setError('Invalid username or password');

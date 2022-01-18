@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../../redux/user';
 import { useHistory } from 'react-router-dom';
+import { useClient } from '../../context/client';
+import { useUser } from '../../context/user';
 
 export default () => {
-  const [errors, setErrors] = useState<any>({});
-  const dispatch = useDispatch();
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const client = useClient();
+  const { setUser } = useUser();
   const history = useHistory();
 
   const submit = async (event) => {
@@ -30,7 +31,8 @@ export default () => {
 
     if (resp.status === 200) {
       const json = await resp.json();
-      dispatch(setCurrentUser(json.user));
+      const user = await client.loginWithToken(json.token);
+      setUser(user);
       history.push('/view');
     } else {
       setErrors({

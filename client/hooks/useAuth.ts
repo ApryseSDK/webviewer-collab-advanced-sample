@@ -1,32 +1,34 @@
-import CollabClient from '@pdftron/collab-client';
 import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getCurrentUser, setCurrentUser } from './../redux/user';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import getToken from '../util/getToken';
-import { getClient } from '../redux/viewer';
+import { useClient } from '../context/client';
+import { useUser } from '../context/user';
 
 /**
  * This hook makes sure the user is logged in before viewing a page.
  * If they are not logged in, it redirects them to the login page
  */
 export default () => {
-  const user = useSelector(getCurrentUser);
+  const { user, setUser } = useUser();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const client: CollabClient = useSelector(getClient);
+  const client = useClient();
   useEffect(() => {
     if (!client) return;
     const fetchToken = async () => {
-      const token = user?.token || (await getToken());
+      const session = await client.getUserSession();
+      if (session) {
+        setUser(session);
+        return;
+      }
+      const token = await getToken();
       if (!token) {
         history.push('/');
         return;
       }
       try {
-        const { user: u } = await client.loginWithToken(token);
+        const u = await client.loginWithToken(token);
         if (!user) {
-          dispatch(setCurrentUser(u));
+          setUser(u);
         }
       } catch (e) {
         history.push('/');

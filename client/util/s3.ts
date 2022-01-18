@@ -13,7 +13,7 @@ const s3 = new AWS.S3({
   params: { Bucket: process.env.BUCKET_NAME },
 });
 
-export const downloadFile = async (id: string) => {
+export const downloadFile = async (id: string): Promise<{ blob: Blob; name: string }> => {
   const key = `${id}`;
 
   return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ export const downloadFile = async (id: string) => {
         const metaData = await s3.headObject(params).promise();
 
         resolve({
-          blob: data.Body,
+          blob: data.Body as Blob,
           name: metaData.Metadata.name,
         });
       }

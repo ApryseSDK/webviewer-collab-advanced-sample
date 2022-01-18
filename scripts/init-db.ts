@@ -4,6 +4,7 @@ import * as path from 'path';
 
 dotenv.config();
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const exec = util.promisify(require('child_process').exec);
 
 (async () => {

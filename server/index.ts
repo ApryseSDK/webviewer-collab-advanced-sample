@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-types';
+import * as proxy from 'http-proxy-middleware';
+import * as path from 'path';
 
 dotenv.config();
 
@@ -34,7 +36,8 @@ const db = new CollabDBPostgreSQL({
     resolvers: db.getResolvers(),
     corsOption,
     getUserFromToken,
-    logLevel: CollabServer.LogLevels.DEBUG,
+    unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
+    // logLevel: CollabServer.LogLevels.DEBUG,
   });
 
   server.start(3000);
@@ -77,8 +80,19 @@ app.post('/signup', async (req, res) => {
   }
 
   if (newUser) {
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        email,
+      },
+      process.env.COLLAB_KEY
+    );
+
+    res.cookie('wv-collab-token', token);
+
     res.status(200).send({
       user: newUser,
+      token,
     });
   } else {
     res.status(400).send();
@@ -113,6 +127,8 @@ app.post('/login', async (req, res) => {
     process.env.COLLAB_KEY
   );
 
+  res.cookie('wv-collab-token', token);
+
   res.send({
     user,
     token,
@@ -133,4 +149,52 @@ const s = app.listen(8080, () => {
 process.on('SIGINT', function () {
   s.close();
   process.exit();
+});
+
+/**
+ * Start a reverse proxy on port 1234
+ */
+const proxyApp = express();
+
+proxyApp.use(
+  '/auth',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:8080',
+    pathRewrite: (path) => {
+      return path.replace('/auth', '');
+    },
+  })
+);
+
+proxyApp.use(
+  '/api/subscribe',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:3000',
+    pathRewrite: (path) => {
+      return path.replace('/api/subscribe', '/subscribe');
+    },
+    ws: true,
+  })
+);
+
+proxyApp.use(
+  '/api',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:3000',
+    pathRewrite: (path) => {
+      return path.replace('/api', '');
+    },
+  })
+);
+
+const routes = ['/', '/login', '/view', '/view/*', '/signup'];
+
+const handler = (req, res) => res.sendFile(path.join(__dirname, '../dist/index.html'));
+
+routes.forEach((route) => proxyApp.get(route, handler));
+
+proxyApp.use(express.static(path.resolve(__dirname, '../dist')));
+
+proxyApp.listen(1234, () => {
+  console.log('Proxy server started on port 1234');
 });

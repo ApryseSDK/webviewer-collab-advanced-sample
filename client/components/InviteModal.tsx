@@ -1,13 +1,15 @@
 import React, { useCallback } from 'react';
-import Modal from '../Modal';
-import InviteList from '../InviteList';
-import { useSelector } from 'react-redux';
-import { getClient } from '../../redux/viewer';
+import Modal from './Modal';
+import InviteList from './InviteList';
 import { toast } from 'react-toastify';
+import { useCurrentDocument } from '../context/document';
 
-export default ({ onExit, document }) => {
-  const client = useSelector(getClient);
+export type InviteModalProps = {
+  onExit: () => void;
+};
 
+export default ({ onExit }: InviteModalProps) => {
+  const { document } = useCurrentDocument();
   const submit = useCallback(
     async (list) => {
       if (list.length === 0) {
@@ -16,14 +18,14 @@ export default ({ onExit, document }) => {
         return;
       }
       try {
-        await client.inviteUsersToDocument(document.id, list);
+        await document.inviteUsers(list);
         toast.success('Success!');
       } catch (e) {
         toast.error('Error: No permission or user is already invited.');
       }
       onExit();
     },
-    [client, document]
+    [document]
   );
 
   return (

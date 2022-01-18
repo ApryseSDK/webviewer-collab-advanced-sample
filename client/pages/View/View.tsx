@@ -1,31 +1,27 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'grommet';
-import { getClient, getInstance, setInstance } from '../../redux/viewer';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from '../../components/Sidebar';
 import TopNav from '../../components/TopNav';
 import useRouting from '../../hooks/useRouting';
-import CollabClient from '@pdftron/collab-client';
 import { downloadFile } from '../../util/s3';
-import {
-  addAnnotation,
-  addDocument,
-  removeDocument,
-  setCurrentDocument,
-} from '../../redux/documents';
 import useAuth from '../../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
-import { getCurrentUser } from '../../redux/user';
-import { toast } from 'react-toastify';
+import { useClient } from '../../context/client';
+import { useInstance } from '../../context/instance';
+import { useUser } from '../../context/user';
+import { useCurrentDocument } from '../../context/document';
 
 export default (props) => {
   const routerId = props?.match?.params?.id;
   const routerAnnotId = props?.match?.params?.annotId;
-  const client: CollabClient = useSelector(getClient);
-  const instance = useSelector(getInstance);
+  const client = useClient();
+
+  const { instance, setInstance } = useInstance();
+  const { user } = useUser();
+  const { setDocument } = useCurrentDocument();
+
   const { setViewPath } = useRouting();
-  const dispatch = useDispatch();
-  const user = useSelector(getCurrentUser);
+
   useAuth();
 
   useEffect(() => {
@@ -38,7 +34,7 @@ export default (props) => {
   }, [routerId, routerAnnotId]);
 
   useEffect(() => {
-    if (!client || !user) return;
+    if (!client) return;
     const ele = document.getElementById('viewer');
     WebViewer(
       {
@@ -48,50 +44,23 @@ export default (props) => {
     ).then(async (instance) => {
       client.setInstance(instance);
       instance.UI.openElements(['notesPanel']);
-
-      client.subscribe('documentChanged', (docObj, action) => {
-        if (action === 'DELETE') {
-          dispatch(removeDocument(docObj));
-        } else {
-          dispatch(addDocument(docObj));
-        }
-      });
-
-      client.subscribe('annotationChanged', (annot, action) => {
-        dispatch(addAnnotation(annot));
-      });
-
-      client.subscribe('permissionError', (docType, attemptedAction) => {
-        const noun = docType.toLowerCase();
-        toast.error(`You do not have permission to ${attemptedAction} that ${noun}`);
-      });
-
-      dispatch(setInstance(instance));
+      setInstance(instance);
     });
-  }, [client, user]);
+  }, [client]);
 
   // Load a new document when the documentId in the URL is updated
   useEffect(() => {
     const go = async () => {
-      if (client && routerId && instance) {
+      if (client && routerId && instance && user) {
         if (routerId === client.currentDocumentId) return;
-
-        // @ts-ignore
-        const { blob, name } = await downloadFile(routerId);
-
-        const result = await client.loadDocument(blob, {
-          // @ts-ignore
-          documentId: routerId,
-          filename: name,
-        });
-
-        if (result) {
-          dispatch(setCurrentDocument(result));
-        }
+        const { blob } = await downloadFile(routerId);
+        const doc = await user.getDocument(routerId);
+        doc.view(blob);
+        setDocument(doc);
       }
     };
     go();
-  }, [routerId, client, instance]);
+  }, [routerId, client, instance, user]);
 
   // Select the annotation when the annotation in the URL is updated
   useEffect(() => {

@@ -1,30 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sidebar, Button, Text, Box } from 'grommet';
-import { useSelector, useDispatch } from 'react-redux';
-import { getCurrentUser, logout } from '../../redux/user';
-import {
-  isLoadingDocuments,
-  getCurrentDocument,
-  setDocuments,
-  setIsLoadingDocuments,
-  getAllDocuments,
-} from '../../redux/documents';
-import FileUpload from '../FileUpload/FileUpload';
-import LoadingSpinner from '../LoadingSpinner';
-import { getClient } from '../../redux/viewer';
-import DocumentListItem from '../DocumentListItem';
+import FileUpload from './FileUpload';
+import LoadingSpinner from './LoadingSpinner';
+import DocumentListItem from './DocumentListItem';
 import { useHistory } from 'react-router-dom';
-import CollabClient from '@pdftron/collab-client';
+import { useUser } from '../context/user';
+import { useCurrentDocument } from '../context/document';
+import { useClient } from '../context/client';
+import { Document } from '@pdftron/collab-client';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
-  const user = useSelector(getCurrentUser);
-  const documents = useSelector(getAllDocuments);
-  const isLoading = useSelector(isLoadingDocuments);
-  const currentDocument = useSelector(getCurrentDocument);
-  const client: CollabClient = useSelector(getClient);
+  const { user } = useUser();
+  const { document: currentDocument } = useCurrentDocument();
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const client = useClient();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * Initial load
@@ -32,32 +24,54 @@ export default () => {
   useEffect(() => {
     if (!client || !user) return;
 
+    setIsLoading(true);
+
     const go = async () => {
-      const paginator = client.getDocumentPaginator({
+      const paginator = user.getDocumentPaginator({
         limit: 50,
       });
 
       const docs = await paginator.next();
 
-      const formattedDocs = docs.reduce((acc, doc) => {
-        acc[doc.id] = doc;
-        return acc;
-      }, {});
-
-      dispatch(setDocuments(formattedDocs));
-      dispatch(setIsLoadingDocuments(false));
+      setDocuments(docs);
+      setIsLoading(false);
     };
 
     go();
   }, [client, user]);
+
+  useEffect(() => {
+    if (!client) return;
+    return client.EventManager.subscribe('documentChanged', (document) => {
+      setDocuments((old) => {
+        const next = [...old];
+        const indexOfDoc = next.findIndex((doc) => doc.id === document.id);
+        if (indexOfDoc > -1) {
+          next[indexOfDoc] = document;
+        } else {
+          next.push(document);
+        }
+        return next;
+      });
+    });
+  }, [client]);
+
+  useEffect(() => {
+    if (!client) return;
+    return client.EventManager.subscribe('inviteReceived', (doc) => {
+      setDocuments((old) => {
+        const next = [...old, doc];
+        return next;
+      });
+    });
+  }, [client]);
 
   const logoutUser = async () => {
     await fetch(`${process.env.AUTH_URL}/logout`, {
       method: 'POST',
       credentials: 'include',
     });
-    dispatch(logout());
-    await client.logout();
+    await user.logout();
     history.push('/');
   };
 
@@ -106,7 +120,7 @@ export default () => {
 
       {client &&
         documents
-          .sort((d1, d2) => d2.updatedAt - d1.updatedAt)
+          .sort((d1, d2) => d2.updatedAt.getTime() - d1.updatedAt.getTime())
           .map((document) => {
             return <DocumentListItem key={document.id} document={document} />;
           })}

@@ -1,7 +1,12 @@
 import React from 'react';
 import { Menu, Text } from 'grommet';
+import { User } from '@pdftron/collab-client';
 
-export default ({ members }) => {
+export type MembersDropdownProps = {
+  members: User[];
+};
+
+export default ({ members }: MembersDropdownProps) => {
   return (
     <Menu
       label={<Text size="small">{members.length} members</Text>}
@@ -12,7 +17,7 @@ export default ({ members }) => {
       }}
       margin={{ right: 'small' }}
       items={members.map((member) => ({
-        label: <Text size="small">{member.user.userName || member.user.email}</Text>,
+        label: <Text size="small">{member.userName || member.email}</Text>,
       }))}
     />
   );

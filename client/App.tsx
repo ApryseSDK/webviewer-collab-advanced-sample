@@ -1,74 +1,49 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Grommet } from 'grommet';
 import './App.scss';
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
-import store from './redux/store';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import View from './pages/View/View';
 import SignUp from './pages/Signup/Signup';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CollabClient from '@pdftron/collab-client';
-import { setClient } from './redux/viewer';
 import theme from './theme';
+import { WithClient } from './context/client';
+import { WithUser } from './context/user';
+import { WithInstance } from './context/instance';
+import { WithDocument } from './context/document';
 
-/**
- * This component just wraps the app and sets up the collab client
- */
-const WithClient = ({ children }) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const client = new CollabClient({
-      url: process.env.SERVER_URL,
-      subscriptionUrl: process.env.SUBSCRIBE_URL,
-      notificationHandler: CollabClient.defaultNotificationHandler({
-        onClick: (data) => {
-          const { documentId, type } = data;
-          if (type === 'message') {
-            // @ts-ignore
-            history.push(`/view/${documentId}/${data.annotationId}`);
-          } else {
-            history.push(`/view/${documentId}`);
-          }
-        },
-      }),
-    });
-
-    dispatch(setClient(client));
-  }, []);
-
-  return children;
-};
 const App = () => {
   return (
     <Router>
       <ToastContainer position="top-center" closeOnClick />
-      <Provider store={store}>
-        <WithClient>
-          <div className="App">
-            <Grommet theme={theme}>
-              <Route path="/" exact>
-                <Login />
-              </Route>
+      <WithClient>
+        <WithUser>
+          <WithInstance>
+            <WithDocument>
+              <div className="App">
+                <Grommet theme={theme}>
+                  <Route path="/" exact>
+                    <Login />
+                  </Route>
 
-              <Route path="/signup" exact>
-                <SignUp />
-              </Route>
+                  <Route path="/signup" exact>
+                    <SignUp />
+                  </Route>
 
-              <Route
-                path={['/view/:id/:annotId', '/view/:id', '/view']}
-                render={(routeProps) => {
-                  return <View {...routeProps} />;
-                }}
-              />
-            </Grommet>
-          </div>
-        </WithClient>
-      </Provider>
+                  <Route
+                    path={['/view/:id/:annotId', '/view/:id', '/view']}
+                    render={(routeProps) => {
+                      return <View {...routeProps} />;
+                    }}
+                  />
+                </Grommet>
+              </div>
+            </WithDocument>
+          </WithInstance>
+        </WithUser>
+      </WithClient>
     </Router>
   );
 };
