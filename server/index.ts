@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-types';
 import * as proxy from 'http-proxy-middleware';
 import * as path from 'path';
+import faker from 'faker';
 
 dotenv.config();
 
@@ -48,6 +49,38 @@ const app = express();
 app.use(cookieParser());
 app.use(cors(corsOption));
 app.use(express.json());
+
+app.post('/signup/random', async (req, res) => {
+  const email = faker.internet.email();
+  const username = faker.internet.userName();
+  const password = faker.internet.password();
+  const passwordHash = await getHash(password);
+
+  const newUser = await db.createUser({
+    userName: username,
+    email,
+    password: passwordHash,
+  });
+
+  const token = jwt.sign(
+    {
+      id: newUser.id,
+      email,
+    },
+    process.env.COLLAB_KEY
+  );
+
+  res.cookie('wv-collab-token', token);
+  res.status(200).send({
+    user: newUser,
+    token,
+    info: {
+      email,
+      password,
+      username,
+    },
+  });
+});
 
 /**
  * Create a new user and return the User object

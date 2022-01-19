@@ -13,6 +13,7 @@ import { WithClient } from './context/client';
 import { WithUser } from './context/user';
 import { WithInstance } from './context/instance';
 import { WithDocument } from './context/document';
+import Home from './pages/Home';
 
 const App = () => {
   return (
@@ -25,6 +26,10 @@ const App = () => {
               <div className="App">
                 <Grommet theme={theme}>
                   <Route path="/" exact>
+                    <Home />
+                  </Route>
+
+                  <Route path="/login" exact>
                     <Login />
                   </Route>
 

@@ -16,12 +16,12 @@ export default () => {
 
   const [showFileEdit, setShowFileEdit] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-  const [scrollSyncAvailable, setScrollSyncAvailable] = useState(false);
   const [activeScrollSyncSession, setScrollSync] = useState<ScrollSyncSession | null>(null);
   const [scrollSyncSessions, setScrollSyncSessions] = useState<ScrollSyncSession[]>([]);
   const [members, setMembers] = useState<User[]>([]);
 
   const inScrollSync = !!activeScrollSyncSession;
+  const canStartScrollSync = client?.ScrollSyncManager.canCreateSession;
 
   const history = useHistory();
 
@@ -51,20 +51,18 @@ export default () => {
     let scrollSyncStatusChangedUnsub = null;
 
     (async () => {
-      setScrollSyncAvailable(await client.ScrollSyncManager.canJoinSession);
       const sessions = client.ScrollSyncManager.availableSessions;
-      setScrollSyncSessions(sessions);
+      setScrollSyncSessions([...sessions]);
 
       scrollSyncStatusChangedUnsub = client.EventManager.subscribe(
         'scrollSyncSessionsChanged',
         (sessions) => {
-          setScrollSyncSessions(sessions);
+          setScrollSyncSessions([...sessions]);
         }
       );
     })();
 
     return () => {
-      setScrollSyncAvailable(false);
       setScrollSync(null);
       scrollSyncStatusChangedUnsub && scrollSyncStatusChangedUnsub();
     };
@@ -83,6 +81,12 @@ export default () => {
     history.push('/view');
     setCurrentDocument(null);
   }, [currentDocument, history]);
+
+  const createScrollSync = useCallback(async () => {
+    if (!currentDocument) return;
+    const session = await currentDocument.createScrollSyncSession();
+    setScrollSync(session);
+  }, [currentDocument]);
 
   const joinScrollSync = useCallback(async (session: ScrollSyncSession) => {
     await session.join();
@@ -119,8 +123,10 @@ export default () => {
               <MembersDropdown members={members} />
 
               <Menu
-                label={<Text size="small">{scrollSyncSessions.length} Sessions</Text>}
+                label={<Text size="small">{scrollSyncSessions.length} scroll sync sessions</Text>}
+                key={`scroll-${scrollSyncSessions.length}`}
                 size="small"
+                disabled={inScrollSync}
                 dropAlign={{
                   right: 'right',
                   top: 'top',
@@ -128,51 +134,61 @@ export default () => {
                 margin={{ right: 'small' }}
                 items={scrollSyncSessions.map((session) => ({
                   label: (
-                    <Text size="small">{session.leader.userName || session.leader.email}</Text>
+                    <Text size="small">Join {session.leader.userName || session.leader.email}</Text>
                   ),
-                  onclick: () => joinScrollSync(session),
+                  onClick: () => joinScrollSync(session),
                 }))}
               />
 
-              <Box direction="row" pad={{ vertical: 'xsmall' }}>
-                {isMember && (
-                  <Button label="Leave document" secondary size="small" onClick={leaveDocument} />
-                )}
-
-                {scrollSyncAvailable && inScrollSync && (
-                  <Button
-                    label="Leave scroll sync"
-                    secondary
-                    size="small"
-                    onClick={leaveScrollSync}
-                    margin={{ left: 'xsmall' }}
-                  />
-                )}
-
+              {canStartScrollSync && (
                 <Button
-                  onClick={() => setShowInviteModal(true)}
-                  label="Invite"
-                  primary
-                  size="small"
-                  margin={{ left: 'xsmall' }}
-                />
-
-                <Button
-                  onClick={() => setShowFileEdit(true)}
-                  label="Edit"
+                  label="Start scroll sync session"
                   secondary
                   size="small"
-                  margin={{ left: 'xsmall' }}
+                  onClick={createScrollSync}
+                  margin={{ left: 'xsmall', vertical: 'xsmall' }}
                 />
+              )}
 
+              {inScrollSync && (
                 <Button
-                  label="Mark all as Read"
-                  primary
+                  label="Leave scroll sync"
+                  secondary
                   size="small"
-                  onClick={markAllAnnotationsAsRead}
-                  margin={{ left: 'xsmall' }}
+                  onClick={leaveScrollSync}
+                  margin={{ left: 'xsmall', vertical: 'xsmall' }}
                 />
-              </Box>
+              )}
+
+              <Menu
+                label={<Text size="small">Options</Text>}
+                // size="small"
+                dropAlign={{
+                  right: 'right',
+                  top: 'top',
+                }}
+                margin={{ right: 'small' }}
+                items={[
+                  isMember
+                    ? {
+                        label: 'Leave document',
+                        onClick: leaveDocument,
+                      }
+                    : undefined,
+                  {
+                    label: 'Invite',
+                    onClick: () => setShowInviteModal(true),
+                  },
+                  {
+                    label: 'Edit',
+                    onClick: () => setShowFileEdit(true),
+                  },
+                  {
+                    label: 'Mark all as read',
+                    onClick: markAllAnnotationsAsRead,
+                  },
+                ].filter((f) => !!f)}
+              />
             </Box>
           )}
         </>

@@ -11,7 +11,7 @@ import { Document } from '@pdftron/collab-client';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const { document: currentDocument } = useCurrentDocument();
   const [documents, setDocuments] = useState<Document[]>([]);
   const client = useClient();
@@ -72,6 +72,7 @@ export default () => {
       credentials: 'include',
     });
     await user.logout();
+    setUser(null);
     history.push('/');
   };
 
