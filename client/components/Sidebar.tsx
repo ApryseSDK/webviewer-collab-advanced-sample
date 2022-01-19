@@ -8,6 +8,7 @@ import { useUser } from '../context/user';
 import { useCurrentDocument } from '../context/document';
 import { useClient } from '../context/client';
 import { Document } from '@pdftron/collab-client';
+import DocText from './DocText';
 
 export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
@@ -87,7 +88,11 @@ export default () => {
 
           <Button
             onClick={() => setShowNewDoc(true)}
-            label="New doc"
+            label={
+              <DocText color="white" link="/docs/client/loading-documents#creating-documents">
+                New doc
+              </DocText>
+            }
             primary
             size="small"
             icon={<>+</>}
@@ -96,24 +101,28 @@ export default () => {
           <Text textAlign="center" size="small" margin={{ bottom: 'small' }}>
             {user?.email}
           </Text>
-          <Text size="xsmall" textAlign="center" onClick={logoutUser}>
-            Logout
-          </Text>
+          <DocText link="/api/client/classes/User.html#logout" style={{ margin: '0 auto' }}>
+            <Text size="xsmall" textAlign="center" onClick={logoutUser}>
+              Logout
+            </Text>
+          </DocText>
         </>
       }
     >
       {showNewDoc && <FileUpload onExit={() => setShowNewDoc(false)} />}
 
-      <Text
-        size="small"
-        weight="bold"
-        margin={{
-          bottom: 'small',
-          top: 'small',
-        }}
-      >
-        Your documents
-      </Text>
+      <DocText link="/docs/client/get-documents">
+        <Text
+          size="small"
+          weight="bold"
+          margin={{
+            bottom: 'small',
+            top: 'small',
+          }}
+        >
+          Your documents
+        </Text>
+      </DocText>
 
       {documents.length === 0 && !isLoading && <Text size="small">You have no documents!</Text>}
 

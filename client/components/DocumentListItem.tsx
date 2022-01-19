@@ -3,6 +3,7 @@ import { Text, Box } from 'grommet';
 import { Link } from 'react-router-dom';
 import { useCurrentDocument } from '../context/document';
 import { Document } from '@pdftron/collab-client';
+import DocText from './DocText';
 
 export type DocumentListItemProps = {
   document: Document;
@@ -28,14 +29,16 @@ export default ({ document }: DocumentListItemProps) => {
           margin={{ bottom: 'xsmall' }}
         >
           <Box basis="full" pad={{ right: 'small' }}>
-            <Text
-              size="small"
-              weight={isUnread ? 'bold' : 'normal'}
-              color={active ? 'neutral-2' : 'light-1'}
-              truncate
-            >
-              {document.name || document.id}
-            </Text>
+            <DocText passThrough={!active} link="/docs/client/loading-documents#loading-documents">
+              <Text
+                size="small"
+                weight={isUnread ? 'bold' : 'normal'}
+                color={active ? 'neutral-2' : 'light-1'}
+                truncate
+              >
+                {document.name || document.id}
+              </Text>
+            </DocText>
           </Box>
           <Box
             width="20px"

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useClient } from '../../context/client';
 import { useUser } from '../../context/user';
+import DocText from '../../components/DocText';
 
 export default () => {
   const history = useHistory();
@@ -65,10 +66,11 @@ export default () => {
               align="center"
               round="small"
             >
-              <Heading level="2" margin="none" color="light">
-                Login
-              </Heading>
-
+              <DocText color="#222222" link="/docs/client/logging-in-users">
+                <Heading level="2" margin="none" color="light">
+                  Login
+                </Heading>
+              </DocText>
               <Form onSubmit={submit} style={{ marginTop: '10px' }}>
                 <FormField htmlFor="email" label="email">
                   <TextInput id="email" name="email" placeholder="email@address.com" />

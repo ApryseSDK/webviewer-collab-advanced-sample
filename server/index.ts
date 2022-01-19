@@ -10,6 +10,7 @@ import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-t
 import * as proxy from 'http-proxy-middleware';
 import * as path from 'path';
 import faker from 'faker';
+import { CronJob } from 'cron';
 
 dotenv.config();
 
@@ -231,3 +232,28 @@ proxyApp.use(express.static(path.resolve(__dirname, '../dist')));
 proxyApp.listen(1234, () => {
   console.log('Proxy server started on port 1234');
 });
+
+const emptyDB = async () => {
+  // @ts-ignore
+  await db.dbClient.query(
+    `TRUNCATE documents, users, document_members, annotations, annotation_members, mentions`
+  );
+
+  const username = process.env.TEMP_PDFTRON_USERNAME;
+  const email = process.env.TEMP_PDFTRON_EMAIL;
+  const password = process.env.TEMP_PDFTRON_PASSWORD;
+
+  if (username && email && password) {
+    const passwordHash = await getHash(password);
+
+    // create a new temp user
+    await db.createUser({
+      userName: username,
+      email,
+      password: passwordHash,
+    });
+  }
+};
+
+const job = new CronJob('0 0 * * *', emptyDB, null, true, 'America/Los_Angeles');
+job.start();

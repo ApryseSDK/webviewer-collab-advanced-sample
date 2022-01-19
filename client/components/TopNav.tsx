@@ -8,6 +8,7 @@ import { useCurrentDocument } from '../context/document';
 import { useUser } from '../context/user';
 import { useClient } from '../context/client';
 import { ScrollSyncSession, User } from '@pdftron/collab-client';
+import DocText from './DocText';
 
 export default () => {
   const { document: currentDocument, setDocument: setCurrentDocument } = useCurrentDocument();
@@ -123,7 +124,11 @@ export default () => {
               <MembersDropdown members={members} />
 
               <Menu
-                label={<Text size="small">{scrollSyncSessions.length} scroll sync sessions</Text>}
+                label={
+                  <DocText link="/docs/client/scroll-sync#getting-available-scroll-sync-sessions">
+                    <Text size="small">{scrollSyncSessions.length} scroll sync sessions</Text>
+                  </DocText>
+                }
                 key={`scroll-${scrollSyncSessions.length}`}
                 size="small"
                 disabled={inScrollSync}
@@ -142,7 +147,9 @@ export default () => {
 
               {canStartScrollSync && (
                 <Button
-                  label="Start scroll sync session"
+                  label={
+                    <DocText link="/docs/client/scroll-sync">Start scroll sync session</DocText>
+                  }
                   secondary
                   size="small"
                   onClick={createScrollSync}
@@ -171,20 +178,28 @@ export default () => {
                 items={[
                   isMember
                     ? {
-                        label: 'Leave document',
+                        label: (
+                          <DocText link="/api/client/classes/Document.html#leave">
+                            Leave document
+                          </DocText>
+                        ),
                         onClick: leaveDocument,
                       }
                     : undefined,
                   {
-                    label: 'Invite',
+                    label: <DocText link="/docs/client/invites">Invite</DocText>,
                     onClick: () => setShowInviteModal(true),
                   },
                   {
-                    label: 'Edit',
+                    label: <DocText link="/docs/client/editing-documents">Edit</DocText>,
                     onClick: () => setShowFileEdit(true),
                   },
                   {
-                    label: 'Mark all as read',
+                    label: (
+                      <DocText link="/docs/client/annotations#mark-all-annotations-as-read">
+                        Mark all as read
+                      </DocText>
+                    ),
                     onClick: markAllAnnotationsAsRead,
                   },
                 ].filter((f) => !!f)}
