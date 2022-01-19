@@ -39,6 +39,11 @@ const db = new CollabDBPostgreSQL({
     corsOption,
     getUserFromToken,
     unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
+    permissions: {
+      snapshot: {
+        restore: 'any',
+      },
+    },
     // logLevel: CollabServer.LogLevels.DEBUG,
   });
 

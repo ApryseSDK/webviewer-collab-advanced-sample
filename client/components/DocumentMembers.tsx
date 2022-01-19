@@ -20,7 +20,6 @@ export default ({ members }: MembersDropdownProps) => {
         right: 'right',
         top: 'top',
       }}
-      margin={{ right: 'small' }}
       items={members.map((member) => ({
         label: <Text size="small">{member.userName || member.email}</Text>,
       }))}
