@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, Text } from 'grommet';
 import { User } from '@pdftron/collab-client';
 import DocText from './DocText';
+import { useCurrentDocument } from '../context/document';
+import { useClient } from '../context/client';
 
-export type MembersDropdownProps = {
-  members: User[];
-};
+export default () => {
+  const [members, setMembers] = useState<User[]>([]);
+  const { document: currentDocument } = useCurrentDocument();
+  const client = useClient();
 
-export default ({ members }: MembersDropdownProps) => {
+  useEffect(() => {
+    (async () => {
+      if (currentDocument) {
+        const members = await currentDocument.getMembers();
+        setMembers(members);
+      }
+    })();
+  }, [currentDocument]);
+
+  useEffect(() => {
+    return client.EventManager.subscribe('documentChanged', async (document) => {
+      if (document.id === currentDocument.id) {
+        const members = await currentDocument.getMembers();
+        setMembers(members);
+      }
+    });
+  }, []);
+
   return (
     <Menu
       label={

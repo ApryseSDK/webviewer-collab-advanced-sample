@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
 import { useHistory } from 'react-router-dom';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { useClient } from '../../context/client';
-import { useUser } from '../../context/user';
-import DocText from '../../components/DocText';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { useClient } from '../context/client';
+import { useUser } from '../context/user';
+import DocText from '../components/DocText';
 
 export default () => {
   const history = useHistory();

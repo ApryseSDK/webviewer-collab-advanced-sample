@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Header, Text, Button, Box, Menu } from 'grommet';
 import InviteModal from './InviteModal';
 import FileEdit from './FileEdit';
@@ -6,8 +6,6 @@ import DocumentMembers from './DocumentMembers';
 import { useHistory } from 'react-router-dom';
 import { useCurrentDocument } from '../context/document';
 import { useUser } from '../context/user';
-import { useClient } from '../context/client';
-import { User } from '@pdftron/collab-client';
 import DocText from './DocText';
 import Snapshots from './Snapshots';
 import ScrollSync from './ScrollSync';
@@ -24,33 +22,17 @@ const Divider = () => (
 export default () => {
   const { document: currentDocument, setDocument: setCurrentDocument } = useCurrentDocument();
   const { user: currentUser } = useUser();
-  const client = useClient();
-
   const [showFileEdit, setShowFileEdit] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-
-  const [members, setMembers] = useState<User[]>([]);
+  const [isMember, setIsMember] = useState(false);
 
   const history = useHistory();
 
-  const isMember = useMemo(() => {
-    if (!currentDocument || !currentUser) return null;
-    return members.some((m) => m.id === currentUser.id);
-  }, [currentUser, currentDocument, members]);
-
   useEffect(() => {
     (async () => {
-      if (currentDocument) {
-        const members = await currentDocument.getMembers();
-        setMembers(members);
-
-        return client.EventManager.subscribe('documentChanged', async (document) => {
-          if (document.id === currentDocument.id) {
-            const members = await currentDocument.getMembers();
-            setMembers(members);
-          }
-        });
-      }
+      if (!currentDocument || !currentUser) return;
+      const isMember = await currentDocument.isMember();
+      setIsMember(isMember);
     })();
   }, [currentDocument]);
 
@@ -96,7 +78,7 @@ export default () => {
 
               <Divider />
 
-              <DocumentMembers members={members} />
+              <DocumentMembers />
 
               <Divider />
 

@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { Box } from 'grommet';
-import Sidebar from '../../components/Sidebar';
-import TopNav from '../../components/TopNav';
-import useRouting from '../../hooks/useRouting';
-import { downloadFile } from '../../util/s3';
-import useAuth from '../../hooks/useAuth';
+import Sidebar from '../components/Sidebar';
+import TopNav from '../components/TopNav';
+import useRouting from '../hooks/useRouting';
+import { downloadFile } from '../util/s3';
+import useAuth from '../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
-import { useClient } from '../../context/client';
-import { useInstance } from '../../context/instance';
-import { useUser } from '../../context/user';
-import { useCurrentDocument } from '../../context/document';
+import { useClient } from '../context/client';
+import { useInstance } from '../context/instance';
+import { useUser } from '../context/user';
+import { useCurrentDocument } from '../context/document';
 
 export default (props) => {
   const routerId = props?.match?.params?.id;

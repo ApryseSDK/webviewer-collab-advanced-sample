@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
 import { useHistory } from 'react-router-dom';
-import { useClient } from '../../context/client';
-import { useUser } from '../../context/user';
+import { useClient } from '../context/client';
+import { useUser } from '../context/user';
 
 export default () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
