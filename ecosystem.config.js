@@ -2,7 +2,7 @@
 const path = require('path');
 
 require('dotenv').config({
-  path: path.resolve('../.env.production'),
+  path: path.resolve('.env.production'),
 });
 
 module.exports = {
