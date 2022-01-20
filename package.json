@@ -28,7 +28,11 @@
     "start-client": "parcel client/index.html --port=8000",
     "start-db": "ts-node scripts/start-db.ts",
     "init-db": "ts-node scripts/init-db.ts",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "start-db-prod": "NODE_ENV=production ts-node scripts/start-db.ts",
+    "init-db-prod": "NODE_ENV=production ts-node scripts/init-db.ts",
+    "setup-deploy": "pm2 deploy ecosystem.config.js production setup",
+    "deploy": "pm2 deploy production update"
   },
   "dependencies": {
     "@pdftron/collab-client": "^2.0.0-alpha.24",
@@ -47,7 +51,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cron": "^1.8.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^14.2.0",
     "express": "^4.17.1",
     "faker": "^5.4.0",
     "grommet": "^2.16.0",
@@ -59,6 +63,7 @@
     "parcel-plugin-static-files-copy": "^2.4.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pm2": "^5.1.2",
     "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

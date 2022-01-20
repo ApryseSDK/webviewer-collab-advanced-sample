@@ -22,7 +22,7 @@ yarn
 
 ### Set up environment variables
 
-To do this, copy the `.env.template` file and rename it to `.env` in the root of the project.
+To do this, copy the `.env.template` file and rename it to `.env.local` in the root of the project.
 
 The following environment variables are required:
 

@@ -12,7 +12,12 @@ import * as path from 'path';
 import faker from 'faker';
 import { CronJob } from 'cron';
 
-dotenv.config();
+const isProd = process.env.NODE_ENV === 'production';
+const configPath = isProd
+  ? path.resolve(__dirname, '../.env.production')
+  : path.resolve(__dirname, '../.env.local');
+
+dotenv.config({ path: configPath });
 
 /**
  * Collaboration server
