@@ -31,9 +31,9 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@pdftron/collab-client": "^2.0.0-alpha.22",
+    "@pdftron/collab-client": "^2.0.0-alpha.24",
     "@pdftron/collab-db-postgresql": "^2.0.0-alpha.20",
-    "@pdftron/collab-server": "^2.0.0-alpha.22",
+    "@pdftron/collab-server": "^2.0.0-alpha.24",
     "@pdftron/webviewer": "^8.2.0",
     "@types/passport": "^1.0.4",
     "@types/react": "^16.9.43",
