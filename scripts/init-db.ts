@@ -2,8 +2,14 @@ import dotenv from 'dotenv';
 import * as util from 'util';
 import * as path from 'path';
 
-dotenv.config();
+const envPath =
+  process.env.NODE_ENV === 'production'
+    ? path.resolve(__dirname, '../.env.production')
+    : path.resolve(__dirname, '../.env.local');
 
+dotenv.config({ path: envPath });
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const exec = util.promisify(require('child_process').exec);
 
 (async () => {

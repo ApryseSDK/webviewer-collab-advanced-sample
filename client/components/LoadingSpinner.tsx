@@ -1,8 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
 import { BounceLoader } from 'react-spinners';
 import { Box } from 'grommet';
 
-export default ({ showBackground = false, style = {} }) => {
+export type LoadingSpinnerProps = {
+  showBackground?: boolean;
+  style?: CSSProperties;
+};
+
+export default ({ showBackground = false, style = {} }: LoadingSpinnerProps) => {
   const inner = useMemo(() => {
     return (
       <Box justify="center" align="center" style={style}>

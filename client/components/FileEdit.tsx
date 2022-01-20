@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Form, FormField, TextInput, Button, CheckBox } from 'grommet';
-import { useSelector } from 'react-redux';
-import { getClient } from '../../redux/viewer';
-import Modal from '../Modal';
-import CollabClient from '@pdftron/collab-client';
+import { Form, FormField, TextInput, Button, CheckBox } from 'grommet';
+import Modal from './Modal';
+import { Document } from '@pdftron/collab-client';
 
-export default ({ onExit, document }) => {
-  const client: CollabClient = useSelector(getClient);
+export type FileEditProps = {
+  document: Document;
+  onExit: (TODO: boolean) => void;
+};
+
+export default ({ onExit, document }: FileEditProps) => {
   const [loading, setIsLoading] = useState(false);
   const [isPublic, setIsPublic] = useState(document?.isPublic);
 
@@ -14,10 +16,11 @@ export default ({ onExit, document }) => {
     async (event) => {
       setIsLoading(true);
       const { name, isPublic } = event.value;
-      await client.editDocument(document.id, {
+      await document.edit({
         name,
         isPublic,
       });
+
       setIsLoading(false);
       onExit?.(false);
     },

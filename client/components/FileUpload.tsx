@@ -1,44 +1,46 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Box, Text } from 'grommet';
 import Uppy from '@uppy/core';
 import { DragDrop } from '@uppy/react';
 import '@uppy/core/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
-import InviteList from '../InviteList';
-import Modal from '../Modal';
-import useRouting from '../../hooks/useRouting';
-import CollabClient from '@pdftron/collab-client';
-import { uploadFile } from '../../util/s3';
-import { useDispatch, useSelector } from 'react-redux';
-import { getClient } from '../../redux/viewer';
-import { setCurrentDocument } from '../../redux/documents';
+import InviteList from './InviteList';
+import Modal from './Modal';
+import useRouting from '../hooks/useRouting';
+import { uploadFile } from '../util/s3';
+import { useUser } from '../context/user';
+import { useCurrentDocument } from '../context/document';
 
-export default ({ onExit }) => {
-  const [selectedFile, setSelectedFile] = useState();
+export type FileUploadProps = {
+  onExit: () => void;
+};
 
+export default ({ onExit }: FileUploadProps) => {
+  const [selectedFile, setSelectedFile] = useState<File & { data: Blob }>();
+  const { user } = useUser();
+  const { setDocument } = useCurrentDocument();
   const [loading, setLoading] = useState(false);
   const { setViewPath } = useRouting();
-  const client: CollabClient = useSelector(getClient);
-  const dispatch = useDispatch();
 
-  const createNewDocument = async (list) => {
+  const createNewDocument = async (list: string[]) => {
     setLoading(true);
 
-    if (selectedFile !== undefined) {
+    if (selectedFile) {
       // @ts-ignore
       const { id } = await uploadFile(selectedFile.data, selectedFile.name);
 
-      // @ts-ignore
-      const result = await client.loadDocument(selectedFile.data, {
-        documentId: id,
+      const document = await user.createDocument({
+        document: selectedFile.data as Blob,
+        name: selectedFile.name,
+        id,
       });
 
       if (list && list.length) {
-        await client.inviteUsersToDocument(id, list);
+        await document.inviteUsers(list);
       }
 
-      if (result) {
-        dispatch(setCurrentDocument(result));
+      if (document) {
+        setDocument(document);
       }
 
       setViewPath({

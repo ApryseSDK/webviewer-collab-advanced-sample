@@ -7,8 +7,17 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-types';
+import * as proxy from 'http-proxy-middleware';
+import * as path from 'path';
+import faker from 'faker';
+import { CronJob } from 'cron';
 
-dotenv.config();
+const isProd = process.env.NODE_ENV === 'production';
+const configPath = isProd
+  ? path.resolve(__dirname, '../.env.production')
+  : path.resolve(__dirname, '../.env.local');
+
+dotenv.config({ path: configPath });
 
 /**
  * Collaboration server
@@ -34,7 +43,13 @@ const db = new CollabDBPostgreSQL({
     resolvers: db.getResolvers(),
     corsOption,
     getUserFromToken,
-    logLevel: CollabServer.LogLevels.DEBUG,
+    unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
+    permissions: {
+      snapshot: {
+        restore: 'any',
+      },
+    },
+    // logLevel: CollabServer.LogLevels.DEBUG,
   });
 
   server.start(3000);
@@ -45,6 +60,38 @@ const app = express();
 app.use(cookieParser());
 app.use(cors(corsOption));
 app.use(express.json());
+
+app.post('/signup/random', async (req, res) => {
+  const email = faker.internet.email();
+  const username = faker.internet.userName();
+  const password = faker.internet.password();
+  const passwordHash = await getHash(password);
+
+  const newUser = await db.createUser({
+    userName: username,
+    email,
+    password: passwordHash,
+  });
+
+  const token = jwt.sign(
+    {
+      id: newUser.id,
+      email,
+    },
+    process.env.COLLAB_KEY
+  );
+
+  res.cookie('wv-collab-token', token);
+  res.status(200).send({
+    user: newUser,
+    token,
+    info: {
+      email,
+      password,
+      username,
+    },
+  });
+});
 
 /**
  * Create a new user and return the User object
@@ -77,8 +124,19 @@ app.post('/signup', async (req, res) => {
   }
 
   if (newUser) {
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        email,
+      },
+      process.env.COLLAB_KEY
+    );
+
+    res.cookie('wv-collab-token', token);
+
     res.status(200).send({
       user: newUser,
+      token,
     });
   } else {
     res.status(400).send();
@@ -113,6 +171,8 @@ app.post('/login', async (req, res) => {
     process.env.COLLAB_KEY
   );
 
+  res.cookie('wv-collab-token', token);
+
   res.send({
     user,
     token,
@@ -134,3 +194,76 @@ process.on('SIGINT', function () {
   s.close();
   process.exit();
 });
+
+/**
+ * Start a reverse proxy on port 1234
+ */
+const proxyApp = express();
+
+proxyApp.use(
+  '/auth',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:8080',
+    pathRewrite: (path) => {
+      return path.replace('/auth', '');
+    },
+  })
+);
+
+proxyApp.use(
+  '/api/subscribe',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:3000',
+    pathRewrite: (path) => {
+      return path.replace('/api/subscribe', '/subscribe');
+    },
+    ws: true,
+  })
+);
+
+proxyApp.use(
+  '/api',
+  proxy.createProxyMiddleware({
+    target: 'http://localhost:3000',
+    pathRewrite: (path) => {
+      return path.replace('/api', '');
+    },
+  })
+);
+
+const routes = ['/', '/login', '/view', '/view/*', '/signup'];
+
+const handler = (req, res) => res.sendFile(path.join(__dirname, '../dist/index.html'));
+
+routes.forEach((route) => proxyApp.get(route, handler));
+
+proxyApp.use(express.static(path.resolve(__dirname, '../dist')));
+
+proxyApp.listen(1234, () => {
+  console.log('Proxy server started on port 1234');
+});
+
+const emptyDB = async () => {
+  // @ts-ignore
+  await db.dbClient.query(
+    `TRUNCATE documents, users, document_members, annotations, annotation_members, mentions`
+  );
+
+  const username = process.env.TEMP_PDFTRON_USERNAME;
+  const email = process.env.TEMP_PDFTRON_EMAIL;
+  const password = process.env.TEMP_PDFTRON_PASSWORD;
+
+  if (username && email && password) {
+    const passwordHash = await getHash(password);
+
+    // create a new temp user
+    await db.createUser({
+      userName: username,
+      email,
+      password: passwordHash,
+    });
+  }
+};
+
+const job = new CronJob('0 0 * * *', emptyDB, null, true, 'America/Los_Angeles');
+job.start();

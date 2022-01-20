@@ -9,4 +9,10 @@ export default deepMerge(grommet, {
       'accent-1': '#face00',
     },
   },
+  tip: {
+    content: {
+      background: 'white',
+      fontSize: '14px',
+    },
+  },
 });

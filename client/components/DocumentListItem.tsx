@@ -1,16 +1,18 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getCurrentDocument } from '../../redux/documents';
-import { getClient } from '../../redux/viewer';
 import { Text, Box } from 'grommet';
 import { Link } from 'react-router-dom';
-import CollabClient from '@pdftron/collab-client';
+import { useCurrentDocument } from '../context/document';
+import { Document } from '@pdftron/collab-client';
+import DocText from './DocText';
 
-export default ({ document }) => {
-  const currentDocument = useSelector(getCurrentDocument);
-  const client: CollabClient = useSelector(getClient);
+export type DocumentListItemProps = {
+  document: Document;
+};
+
+export default ({ document }: DocumentListItemProps) => {
+  const { document: currentDocument } = useCurrentDocument();
   const active = document.id === currentDocument?.id;
-  const unreadCount = client.getUnreadCountForDocument(document) || 0;
+  const unreadCount = document?.unreadCount || 0;
   const isUnread = unreadCount > 0;
 
   return (
@@ -27,14 +29,16 @@ export default ({ document }) => {
           margin={{ bottom: 'xsmall' }}
         >
           <Box basis="full" pad={{ right: 'small' }}>
-            <Text
-              size="small"
-              weight={isUnread ? 'bold' : 'normal'}
-              color={active ? 'neutral-2' : 'light-1'}
-              truncate
-            >
-              {document.name || document.id}
-            </Text>
+            <DocText passThrough={!active} link="/docs/client/loading-documents#loading-documents">
+              <Text
+                size="small"
+                weight={isUnread ? 'bold' : 'normal'}
+                color={active ? 'neutral-2' : 'light-1'}
+                truncate
+              >
+                {document.name || document.id}
+              </Text>
+            </DocText>
           </Box>
           <Box
             width="20px"

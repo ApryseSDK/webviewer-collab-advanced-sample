@@ -1,7 +1,13 @@
 import React, { useRef, useState, useCallback } from 'react';
 import { Box, Heading, Keyboard, FormField, TextInput, List, Button } from 'grommet';
 
-export default ({ onSubmit, buttonDisabled = false, buttonLabel = 'Go!' }) => {
+export type InviteListProps = {
+  onSubmit: (users: string[]) => void;
+  buttonDisabled?: boolean;
+  buttonLabel?: string;
+};
+
+export default ({ onSubmit, buttonDisabled = false, buttonLabel = 'Go!' }: InviteListProps) => {
   const invitedRef = useRef(null);
   const [invited, setInvited] = useState([]);
 
