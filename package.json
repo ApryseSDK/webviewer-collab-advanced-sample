@@ -27,6 +27,7 @@
     "start-server": "ts-node server/index.ts",
     "start-client": "parcel client/index.html --port=8000",
     "start-db": "ts-node scripts/start-db.ts",
+    "build-client": "NODE_ENV=production npx parcel build client/index.html",
     "init-db": "ts-node scripts/init-db.ts",
     "lint": "tsc --noEmit",
     "start-db-prod": "NODE_ENV=production ts-node scripts/start-db.ts",
