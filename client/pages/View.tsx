@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Box } from 'grommet';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Text } from 'grommet';
 import Sidebar from '../components/Sidebar';
 import TopNav from '../components/TopNav';
 import useRouting from '../hooks/useRouting';
@@ -10,19 +10,35 @@ import { useClient } from '../context/client';
 import { useInstance } from '../context/instance';
 import { useUser } from '../context/user';
 import { useCurrentDocument } from '../context/document';
+import { useHistory } from 'react-router-dom';
+import createSampleDoc from '../util/createSampleDoc';
+import Modal from '../components/Modal';
 
 export default (props) => {
   const routerId = props?.match?.params?.id;
   const routerAnnotId = props?.match?.params?.annotId;
   const client = useClient();
-
+  const [welcomeModal, showWelcomeModal] = useState(false);
+  const [creatingWelcomeDoc, setCreatingWelcomeDoc] = useState(false);
   const { instance, setInstance } = useInstance();
   const { user } = useUser();
   const { setDocument } = useCurrentDocument();
 
   const { setViewPath } = useRouting();
+  const history = useHistory();
 
   useAuth();
+
+  useEffect(() => {
+    if (user && history.location.search.includes('n=1')) {
+      setCreatingWelcomeDoc(true);
+      showWelcomeModal(true);
+      createSampleDoc(user).then((doc) => {
+        setCreatingWelcomeDoc(false);
+        history.push(`/view/${doc.id}`);
+      });
+    }
+  }, [history, user]);
 
   useEffect(() => {
     if (routerId) {
@@ -76,6 +92,35 @@ export default (props) => {
 
   return (
     <Box height="100%">
+      {welcomeModal && (
+        <Modal loading={creatingWelcomeDoc}>
+          <Box height={'300px'}>
+            {!creatingWelcomeDoc && (
+              <>
+                <Text textAlign="center">Welcome to WebViewer Collaboration!</Text>
+                <Text size="small" margin={{ top: '20px' }}>
+                  We have created a sample document for you to get started. You can upload your own
+                  files by clicking the "New doc" button in the side bar.
+                </Text>
+                <br />
+                <Text size="small">
+                  Feel free to invite other people to try collaborating, or create an account in a
+                  different browser and invite yourself!
+                </Text>
+
+                <Button
+                  primary
+                  margin={{ top: '40px' }}
+                  style={{ textAlign: 'center' }}
+                  label="Close"
+                  onClick={() => showWelcomeModal(false)}
+                />
+              </>
+            )}
+          </Box>
+        </Modal>
+      )}
+
       <Box direction="row" height="100%">
         <Sidebar />
 

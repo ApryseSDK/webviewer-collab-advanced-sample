@@ -46,7 +46,7 @@ const db = new CollabDBPostgreSQL({
     unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
     permissions: {
       snapshot: {
-        restore: 'any',
+        restore: CollabServer.Permissions.Roles.ANY,
       },
     },
     // logLevel: CollabServer.LogLevels.DEBUG,
@@ -60,6 +60,8 @@ const app = express();
 app.use(cookieParser());
 app.use(cors(corsOption));
 app.use(express.json());
+
+app.use('/static', express.static('static'));
 
 app.post('/signup/random', async (req, res) => {
   const email = faker.internet.email();

@@ -1264,28 +1264,28 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^2.0.0-alpha.24":
-  version "2.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.24.tgz#0872dda941890fbafcac791c7610c6a23039dea5"
-  integrity sha512-mkoTG26hisB2p0ugK+QCElQJZrpCC7AujgXKgwaoPtp3UDOjI6zM9zcMKZa8K7B8x7PHzb1YU8rwi9Vwj8lWlg==
+"@pdftron/collab-client@^2.0.0-alpha.25":
+  version "2.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.25.tgz#16cb831ad18d7f1526a726e853babaf3c6f00a47"
+  integrity sha512-QpIYJwEOrAWMEfsFXiH4seLqERemILtsiDPx4HLGtk4sybPrBRstqn7dt3eGvGNH5XDE4KYtkQVszvZNAiKQhg==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
     lodash "^4.17.20"
 
-"@pdftron/collab-db-postgresql@^2.0.0-alpha.20":
-  version "2.0.0-alpha.20"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.20.tgz#7e1a950df2ecee8c339440d6617e50e7b5c4a79c"
-  integrity sha512-pfL/YYXmczH1/aAlMOrH8rgIKeX4MWxNfEUBoqqww0v+nqDew9I3P3TGmTuSnd8zzoWSKQw0ethzZXGBj31VaA==
+"@pdftron/collab-db-postgresql@^2.0.0-alpha.25":
+  version "2.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.25.tgz#88a59db155ffffeac3b83124cf8c99637fbc74f3"
+  integrity sha512-o5EKUXfa3OxWB0QoOwDj8nmBn7iSTlf8fR0Fo3G4bHNy856BqqW/NbpZdwkkqyWbuN7+wZYaMo++6NGuePuo7g==
   dependencies:
     "@types/pg" "^7.14.3"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^2.0.0-alpha.24":
-  version "2.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.24.tgz#e86501f7491a17b38fc042373b5497262e15eaef"
-  integrity sha512-yhveYm6yzm0GcNIXEWN20Z5C15D0+iFZG+6kj28Y0xQ9gDOXULCzobYhZ5K42tqKk3U6i+m/AYO6p7E5jtuWzw==
+"@pdftron/collab-server@^2.0.0-alpha.25":
+  version "2.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.25.tgz#21f7a5ba80ec5a3e58494be8527bf0287c479360"
+  integrity sha512-yBKdcvIDK925s4b4fPWheYNGvHjrj4oHYsIRQHIEHSaPAnLoFnu/kRaP/ruwvMHZuci/YLv+1esSEav5f88uVw==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"
