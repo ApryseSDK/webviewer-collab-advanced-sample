@@ -1264,10 +1264,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^2.0.0-alpha.25":
-  version "2.0.0-alpha.25"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.25.tgz#16cb831ad18d7f1526a726e853babaf3c6f00a47"
-  integrity sha512-QpIYJwEOrAWMEfsFXiH4seLqERemILtsiDPx4HLGtk4sybPrBRstqn7dt3eGvGNH5XDE4KYtkQVszvZNAiKQhg==
+"@pdftron/collab-client@^2.0.0-alpha.26":
+  version "2.0.0-alpha.26"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.26.tgz#dba2a1cd994f7a16124eaf1bc1ab722f7038cb55"
+  integrity sha512-8bnqvBalKfgJz+39iAF+IZEw2H3U8hL7fEWdXDIDSftdliUZmFFm2MvMMf0HWHLK+ykJvO/UtY/ekQGAsDXM6A==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"

@@ -36,7 +36,7 @@
     "deploy": "pm2 deploy production update"
   },
   "dependencies": {
-    "@pdftron/collab-client": "^2.0.0-alpha.25",
+    "@pdftron/collab-client": "^2.0.0-alpha.26",
     "@pdftron/collab-db-postgresql": "^2.0.0-alpha.25",
     "@pdftron/collab-server": "^2.0.0-alpha.25",
     "@pdftron/webviewer": "^8.2.0",
