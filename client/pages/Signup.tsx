@@ -3,7 +3,6 @@ import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'gromme
 import { useHistory } from 'react-router-dom';
 import { useClient } from '../context/client';
 import { useUser } from '../context/user';
-
 export default () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const client = useClient();
@@ -33,7 +32,7 @@ export default () => {
       const json = await resp.json();
       const user = await client.loginWithToken(json.token);
       setUser(user);
-      history.push('/view');
+      history.push('/view?n=1');
     } else {
       setErrors({
         password2: 'There was an issue creating your account :(',

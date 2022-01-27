@@ -60,7 +60,7 @@ export default function Home() {
                 {fakeInfo.password}
               </Paragraph>
 
-              <a href="/view" style={{ margin: '0 auto' }}>
+              <a href="/view?n=1" style={{ margin: '0 auto' }}>
                 <Button label="Continue to app" primary margin="20px auto" />
               </a>
             </Box>

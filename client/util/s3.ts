@@ -42,7 +42,10 @@ export const downloadFile = async (id: string): Promise<{ blob: Blob; name: stri
   });
 };
 
-export const uploadFile = async (blob: Blob, name: string) => {
+export const uploadFile = async (
+  blob: Blob,
+  name: string
+): Promise<{ id: string; path: string }> => {
   const id = v4();
   const key = `${id}`;
 
