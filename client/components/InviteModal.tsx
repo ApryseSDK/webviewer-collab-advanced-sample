@@ -33,8 +33,8 @@ export default ({ onExit }: InviteModalProps) => {
     <Modal onExit={onExit}>
       {success ? (
         <Box>
-          <Text>Success!</Text>
-          <Text size="small" margin={{ top: '10px' }}>
+          <Text textAlign="center">Success!</Text>
+          <Text size="small" margin={{ top: '20px' }}>
             If the user(s) you invited do not have an account, they will be added to this document
             once they create one with the same email.
           </Text>
