@@ -1264,10 +1264,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^2.0.0-alpha.26":
-  version "2.0.0-alpha.26"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.26.tgz#dba2a1cd994f7a16124eaf1bc1ab722f7038cb55"
-  integrity sha512-8bnqvBalKfgJz+39iAF+IZEw2H3U8hL7fEWdXDIDSftdliUZmFFm2MvMMf0HWHLK+ykJvO/UtY/ekQGAsDXM6A==
+"@pdftron/collab-client@^2.0.0-alpha.27":
+  version "2.0.0-alpha.27"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.27.tgz#2a664a40ea732a39271e5d1a0bd9f7f1bcbefc9c"
+  integrity sha512-WFbSfNwTKEhPiVaU4HGeXQcTbg/AQVe+wM/nDpiPVaL/O9GgqZDBCfMhrBVLu3ptquCBQl3hVLfHYjm+QmBj8g==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
@@ -1282,10 +1282,10 @@
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^2.0.0-alpha.25":
-  version "2.0.0-alpha.25"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.25.tgz#21f7a5ba80ec5a3e58494be8527bf0287c479360"
-  integrity sha512-yBKdcvIDK925s4b4fPWheYNGvHjrj4oHYsIRQHIEHSaPAnLoFnu/kRaP/ruwvMHZuci/YLv+1esSEav5f88uVw==
+"@pdftron/collab-server@^2.0.0-alpha.27":
+  version "2.0.0-alpha.27"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.27.tgz#995c76d5ef3be820da89a672a45289399f69f15c"
+  integrity sha512-MWkGYwolBs940DF8/eDD1DDeoD37TeAC71hdZIlOjN7hPY3/mEpDjjj0gmxR1Q5xb9oneLXHpY+QeNepZd59ug==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"

@@ -41,6 +41,8 @@ export default () => {
     const canJoin = await doc.canJoin();
     if (canJoin) {
       doc.join();
+      setCurrentDocument(doc);
+      setIsMember(true);
     }
   }, [currentUser, currentDocument]);
 
@@ -61,7 +63,13 @@ export default () => {
       <Box flex={{ grow: 1 }} />
 
       {currentDocument && currentDocument.isPublic && !isMember && (
-        <Button label="Join document" primary size="small" onClick={joinDocument} />
+        <Button
+          label="Join document"
+          primary
+          size="small"
+          onClick={joinDocument}
+          margin={{ vertical: '4px' }}
+        />
       )}
 
       {isMember && (

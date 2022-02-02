@@ -1,6 +1,7 @@
 import { CollabClient } from '@pdftron/collab-client';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const ClientContext = React.createContext<CollabClient>(null);
 
@@ -33,6 +34,15 @@ export const WithClient = ({ children }) => {
         },
       }),
     });
+
+    client.EventManager.subscribe('annotationPermissionError', () => {
+      toast.error('You do not have permission to create annotations on this document.');
+    });
+
+    client.EventManager.subscribe('documentPermissionError', () => {
+      toast.error('You do not have permission to view that document');
+    });
+
     setClient(client);
   }, []);
 
