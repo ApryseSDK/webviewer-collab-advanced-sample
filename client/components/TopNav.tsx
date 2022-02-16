@@ -94,8 +94,16 @@ export default () => {
 
               <Divider />
 
+              <Button
+                label={<DocText link="/docs/client/invites">Invite people</DocText>}
+                secondary
+                size="small"
+                onClick={() => setShowInviteModal(true)}
+                margin={{ vertical: 'xsmall' }}
+              />
+
               <Menu
-                label={<Text size="small">Options</Text>}
+                label={<Text size="small">More</Text>}
                 // size="small"
                 dropAlign={{
                   right: 'right',

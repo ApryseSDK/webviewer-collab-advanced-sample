@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Box, Heading, Keyboard, FormField, TextInput, List, Button } from 'grommet';
+import { Box, Heading, Keyboard, FormField, TextInput, List, Button, Paragraph } from 'grommet';
 
 export type InviteListProps = {
   onSubmit: (users: string[]) => void;
@@ -32,9 +32,14 @@ export default ({ onSubmit, buttonDisabled = false, buttonLabel = 'Go!' }: Invit
 
   return (
     <Box>
-      <Heading level="3" margin={{ top: 'none' }} textAlign="center">
+      <Heading level="3" margin={{ top: 'none', bottom: 'none' }} textAlign="center">
         Invite people
       </Heading>
+
+      <Paragraph size="small" textAlign="center">
+        Don't have someone to invite? Open the app in another browser or an incognito window and
+        invite yourself! You can find your fake email in the bottom left corner.
+      </Paragraph>
 
       <Keyboard onEnter={addUser} target="component">
         <FormField htmlFor="add-user" label="Email" margin={{ bottom: 'none' }}>

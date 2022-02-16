@@ -1264,28 +1264,29 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^2.0.0-alpha.27":
-  version "2.0.0-alpha.27"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.27.tgz#2a664a40ea732a39271e5d1a0bd9f7f1bcbefc9c"
-  integrity sha512-WFbSfNwTKEhPiVaU4HGeXQcTbg/AQVe+wM/nDpiPVaL/O9GgqZDBCfMhrBVLu3ptquCBQl3hVLfHYjm+QmBj8g==
+"@pdftron/collab-client@^2.0.0-alpha.29":
+  version "2.0.0-alpha.29"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.29.tgz#999684efd719ab055223c3b39aca40a842c4fa23"
+  integrity sha512-qa9N80GCnkCrD+JYOV6vuSQEHYXRstwCrm+ub7wW5417hB1TSMKNET7AYMYR19GVv9neqFz+o+z2PGMGJkKgJQ==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
     lodash "^4.17.20"
 
-"@pdftron/collab-db-postgresql@^2.0.0-alpha.25":
-  version "2.0.0-alpha.25"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.25.tgz#88a59db155ffffeac3b83124cf8c99637fbc74f3"
-  integrity sha512-o5EKUXfa3OxWB0QoOwDj8nmBn7iSTlf8fR0Fo3G4bHNy856BqqW/NbpZdwkkqyWbuN7+wZYaMo++6NGuePuo7g==
+"@pdftron/collab-db-postgresql@^2.0.0-alpha.29":
+  version "2.0.0-alpha.29"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.29.tgz#90ef0e0d371fe06f114f8290f9184436c2d20604"
+  integrity sha512-yG00uV1WjQ35XbxwYaLdXAFX8z/HVNgriIihmqOvawL0LPwHzJ2F7GHcTkFIhyHUfRQWZ/q9O/g/2cnHmJJJKg==
   dependencies:
     "@types/pg" "^7.14.3"
+    joi "^17.4.0"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^2.0.0-alpha.27":
-  version "2.0.0-alpha.27"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.27.tgz#995c76d5ef3be820da89a672a45289399f69f15c"
-  integrity sha512-MWkGYwolBs940DF8/eDD1DDeoD37TeAC71hdZIlOjN7hPY3/mEpDjjj0gmxR1Q5xb9oneLXHpY+QeNepZd59ug==
+"@pdftron/collab-server@^2.0.0-alpha.32":
+  version "2.0.0-alpha.32"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.32.tgz#5eeadfc90e73e28fc1f0f6b76672dfda902186b1"
+  integrity sha512-slYLIUxn0U3IGGaZJ7tI2alUwtaam71l5df9jXEN4EZXUpzJB6egsWQ95aeLebMZqBuq/Gl2HCUkzj0nLwLCsQ==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"
@@ -1296,6 +1297,7 @@
     graphql "^15.6.0"
     graphql-subscriptions "^1.2.1"
     graphql-tools "4.0.8"
+    joi "^17.4.0"
     jsdom "^18.1.1"
     jsonwebtoken "^8.5.1"
     lodash.xor "^4.5.0"
@@ -5660,6 +5662,17 @@ jmespath@0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
+
+joi@^17.4.0:
+  version "17.6.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-17.6.0.tgz#0bb54f2f006c09a96e75ce687957bd04290054b2"
+  integrity sha512-OX5dG6DTbcr/kbMFj0KGYxuew69HPcAE3K/sZpEV2nP6e/j/C0HV+HNiBPCASxdx5T7DMoa0s8UeHWMnb6n2zw==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+    "@hapi/topo" "^5.0.0"
+    "@sideway/address" "^4.1.3"
+    "@sideway/formula" "^3.0.0"
+    "@sideway/pinpoint" "^2.0.0"
 
 joi@^17.5.0:
   version "17.5.0"
