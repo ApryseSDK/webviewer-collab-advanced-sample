@@ -1264,29 +1264,29 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@^2.0.0-alpha.29":
-  version "2.0.0-alpha.29"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0-alpha.29.tgz#999684efd719ab055223c3b39aca40a842c4fa23"
-  integrity sha512-qa9N80GCnkCrD+JYOV6vuSQEHYXRstwCrm+ub7wW5417hB1TSMKNET7AYMYR19GVv9neqFz+o+z2PGMGJkKgJQ==
+"@pdftron/collab-client@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0.tgz#b62fde6ebaa59b52c75f0c57bc375d9bd02852e8"
+  integrity sha512-zRG+TirWDSTf47lYNhgDLtDvLBMugCKo7PfxDOuY5zKmkpLgX9VMDLzMqxSKjLAHpNsCNLAdfKNlEqy36oO4Vg==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
     lodash "^4.17.20"
 
-"@pdftron/collab-db-postgresql@^2.0.0-alpha.29":
-  version "2.0.0-alpha.29"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0-alpha.29.tgz#90ef0e0d371fe06f114f8290f9184436c2d20604"
-  integrity sha512-yG00uV1WjQ35XbxwYaLdXAFX8z/HVNgriIihmqOvawL0LPwHzJ2F7GHcTkFIhyHUfRQWZ/q9O/g/2cnHmJJJKg==
+"@pdftron/collab-db-postgresql@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0.tgz#bdad89d0b028468fb0b83e1dc1cc87030f70006d"
+  integrity sha512-qa/Hi7HdWehf4L6LuvCeS05ZVAcPW7oqdsl3pPJ7TjjhFDEvCb4OFNgTbThXcGXeGZV6+UshfM5NwXYA08vbrg==
   dependencies:
     "@types/pg" "^7.14.3"
     joi "^17.4.0"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@^2.0.0-alpha.32":
-  version "2.0.0-alpha.32"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0-alpha.32.tgz#5eeadfc90e73e28fc1f0f6b76672dfda902186b1"
-  integrity sha512-slYLIUxn0U3IGGaZJ7tI2alUwtaam71l5df9jXEN4EZXUpzJB6egsWQ95aeLebMZqBuq/Gl2HCUkzj0nLwLCsQ==
+"@pdftron/collab-server@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0.tgz#696df6d12058c1cd6204ff154b9aed5abb2153ee"
+  integrity sha512-1xekQEv96rMtW1MkwkiMSK4+Q6k8HymMQ1kCL6LA2gmbkFZ6JiOicPeWdd1QPtX9ou2C5uPajIkbRiwQqFy2OA==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"
