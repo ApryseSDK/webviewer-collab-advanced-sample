@@ -10,44 +10,38 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import theme from './theme';
 import { WithClient } from './context/client';
-import { WithUser } from './context/user';
-import { WithInstance } from './context/instance';
-import { WithDocument } from './context/document';
 import Home from './pages/Home';
+import { WithInstance } from './context/instance';
 
 const App = () => {
   return (
     <Router>
       <ToastContainer position="top-center" closeOnClick />
       <WithClient>
-        <WithUser>
-          <WithInstance>
-            <WithDocument>
-              <div className="App">
-                <Grommet theme={theme}>
-                  <Route path="/" exact>
-                    <Home />
-                  </Route>
+        <WithInstance>
+          <div className="App">
+            <Grommet theme={theme}>
+              <Route path="/" exact>
+                <Home />
+              </Route>
 
-                  <Route path="/login" exact>
-                    <Login />
-                  </Route>
+              <Route path="/login" exact>
+                <Login />
+              </Route>
 
-                  <Route path="/signup" exact>
-                    <SignUp />
-                  </Route>
+              <Route path="/signup" exact>
+                <SignUp />
+              </Route>
 
-                  <Route
-                    path={['/view/:id/:annotId', '/view/:id', '/view']}
-                    render={(routeProps) => {
-                      return <View {...routeProps} />;
-                    }}
-                  />
-                </Grommet>
-              </div>
-            </WithDocument>
-          </WithInstance>
-        </WithUser>
+              <Route
+                path={['/view/:id/:annotId', '/view/:id', '/view']}
+                render={(routeProps) => {
+                  return <View {...routeProps} />;
+                }}
+              />
+            </Grommet>
+          </div>
+        </WithInstance>
       </WithClient>
     </Router>
   );

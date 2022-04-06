@@ -1264,29 +1264,36 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.0.tgz#b62fde6ebaa59b52c75f0c57bc375d9bd02852e8"
-  integrity sha512-zRG+TirWDSTf47lYNhgDLtDvLBMugCKo7PfxDOuY5zKmkpLgX9VMDLzMqxSKjLAHpNsCNLAdfKNlEqy36oO4Vg==
+"@pdftron/collab-client@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.1.tgz#a96482e9ff75b299ff922c9bbda295e1345d4660"
+  integrity sha512-adORymqB+6tWK9aADLYgyncxU8ELZUngaW3q+buCxjUOfefFMMLjQ3phX2Pmf9VxwQePBiDwDwG7UhVdXpCIgg==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
     lodash "^4.17.20"
 
-"@pdftron/collab-db-postgresql@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.0.tgz#bdad89d0b028468fb0b83e1dc1cc87030f70006d"
-  integrity sha512-qa/Hi7HdWehf4L6LuvCeS05ZVAcPW7oqdsl3pPJ7TjjhFDEvCb4OFNgTbThXcGXeGZV6+UshfM5NwXYA08vbrg==
+"@pdftron/collab-db-postgresql@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.1.tgz#6ec24713da463802b6851f3c0fba33879666c438"
+  integrity sha512-hOyi0cmxWHjwmo74mq8M1Pw/FNf10f/NJvpYUQlCDwE+qOcjuT1o0GX4KsoLW5ruiX2c1CID26ohyRuexg/kJQ==
   dependencies:
     "@types/pg" "^7.14.3"
     joi "^17.4.0"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-server@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.0.tgz#696df6d12058c1cd6204ff154b9aed5abb2153ee"
-  integrity sha512-1xekQEv96rMtW1MkwkiMSK4+Q6k8HymMQ1kCL6LA2gmbkFZ6JiOicPeWdd1QPtX9ou2C5uPajIkbRiwQqFy2OA==
+"@pdftron/collab-react@^2.1.0-alpha.1":
+  version "2.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-react/-/collab-react-2.1.0-alpha.1.tgz#0a1ef2b027b8e3c1f4599aeb126edc02edeedd24"
+  integrity sha512-cKABYIciLJrXZ3EhdNLTMwqqgV8K0hWZ4MSIAg+lvCjK39/7k40gUPgq502D3m1WD8GXNjjS9md3dO5faJcXWw==
+  dependencies:
+    react-hooks-global-state "^1.0.2"
+
+"@pdftron/collab-server@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.1.tgz#884d5adb23c248f25bf756cd08717dbf01ab61d0"
+  integrity sha512-VrE+/E5tLQxDRACRG0cVDwzawiLbnZAXGab+/lwY9HzTwyDctTONW7KTaYtJUz53dWwrgTqh+eLma5RZOso6RA==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"
@@ -1301,15 +1308,16 @@
     jsdom "^18.1.1"
     jsonwebtoken "^8.5.1"
     lodash.xor "^4.5.0"
+    lru-cache "^7.7.1"
     pg "^8.3.0"
     subscriptions-transport-ws "^0.9.19"
     ts-node "^9.0.0"
     winston "^3.3.3"
 
-"@pdftron/webviewer@^8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-8.2.0.tgz#74c8f173193807282eeb578b566f0e200eaa875b"
-  integrity sha512-rM/nVQy6OBSqR9DjHubXLVpputa1jtuSqIMGxHttPZLfjVS0zrAOuXE/m2xFPa1Jtobb1XJqKBks7uYhJxfHMQ==
+"@pdftron/webviewer@^8.3.3":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-8.4.0.tgz#901aea57ec8de1eb756c947e2fe46acdc1e33754"
+  integrity sha512-D5bQ7J+UHNqikq0CKf+Y3ePABXgs053oZxBy5hrEB1h7Hjd8Nb2NlyCHqQLYHaLahWbQbDs/a5nDmPMWnTSTEA==
 
 "@pm2/agent@~2.0.0":
   version "2.0.1"
@@ -6096,6 +6104,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lru-cache@^7.7.1:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.7.3.tgz#98cd19eef89ce6a4a3c4502c17c833888677c252"
+  integrity sha512-WY9wjJNQt9+PZilnLbuFKM+SwDull9+6IAguOrarOMoOHTcJ9GnXSO11+Gw6c7xtDkBkthR57OZMtZKYr+1CEw==
+
 magic-string@^0.22.4:
   version "0.22.5"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.22.5.tgz#8e9cf5afddf44385c1da5bc2a6a0dbd10b03657e"
@@ -7880,6 +7893,11 @@ react-dom@^16.13.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
+
+react-hooks-global-state@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-hooks-global-state/-/react-hooks-global-state-1.0.2.tgz#37bbc3203a0be9f3ac0658abfd28dd7ce7ee166c"
+  integrity sha512-UcWz+VjcUUCQ7bXGmOhanGII3j22zyPSjwJnQWeycxFYj/etBxIbz9xziEm4sv5+OqGuS7bzvpx24XkCxgJ7Bg==
 
 react-icons@^4.3.1:
   version "4.3.1"

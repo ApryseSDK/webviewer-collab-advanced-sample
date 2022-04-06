@@ -1,13 +1,9 @@
 import { CollabClient } from '@pdftron/collab-client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { CollabClientProvider } from '@pdftron/collab-react';
 export const ClientContext = React.createContext<CollabClient>(null);
-
-export const useClient = function () {
-  return React.useContext(ClientContext);
-};
 
 /**
  * This component just wraps the app and sets up the collab client
@@ -15,10 +11,8 @@ export const useClient = function () {
 export const WithClient = ({ children }) => {
   const history = useHistory();
 
-  const [client, setClient] = useState<CollabClient>(null);
-
-  useEffect(() => {
-    const client = new CollabClient({
+  const client = useRef(
+    new CollabClient({
       url: process.env.SERVER_URL,
       subscriptionUrl: process.env.SUBSCRIBE_URL,
       logLevel: CollabClient.LogLevels.DEBUG,
@@ -33,18 +27,18 @@ export const WithClient = ({ children }) => {
           }
         },
       }),
-    });
+    })
+  );
 
-    client.EventManager.subscribe('annotationPermissionError', () => {
+  useEffect(() => {
+    client.current.EventManager.subscribe('annotationPermissionError', () => {
       toast.error('You do not have permission to create annotations on this document.');
     });
 
-    client.EventManager.subscribe('documentPermissionError', () => {
+    client.current.EventManager.subscribe('documentPermissionError', () => {
       toast.error('You do not have permission to view that document');
     });
-
-    setClient(client);
   }, []);
 
-  return <ClientContext.Provider value={client}>{children}</ClientContext.Provider>;
+  return <CollabClientProvider client={client.current}>{children}</CollabClientProvider>;
 };

@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
 import { useHistory } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useClient } from '../context/client';
-import { useUser } from '../context/user';
 import DocText from '../components/DocText';
+import { useClient } from '@pdftron/collab-react';
 
 export default () => {
   const history = useHistory();
   const [error, setError] = useState<string>();
   const client = useClient();
-  const { setUser } = useUser();
   const [canLogin, setCanLogin] = useState(false);
 
   useEffect(() => {
     const go = async () => {
       const user = await client.getUserSession();
-      setUser(user);
       if (user) {
         history.push('/view');
       } else {
@@ -45,8 +42,7 @@ export default () => {
     if (resp.status === 200) {
       const json = await resp.json();
       setError(null);
-      const user = await client.loginWithToken(json.token);
-      setUser(user);
+      await client.loginWithToken(json.token);
       history.push('/view');
     } else {
       setError('Invalid username or password');

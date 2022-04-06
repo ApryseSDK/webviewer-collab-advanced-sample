@@ -1,15 +1,14 @@
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import getToken from '../util/getToken';
-import { useClient } from '../context/client';
-import { useUser } from '../context/user';
+import { useClient, useCurrentUser } from '@pdftron/collab-react';
 
 /**
  * This hook makes sure the user is logged in before viewing a page.
  * If they are not logged in, it redirects them to the login page
  */
 export default ({ redirect }: { redirect?: boolean } = {}) => {
-  const { user, setUser } = useUser();
+  const user = useCurrentUser();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const client = useClient();
@@ -18,7 +17,6 @@ export default ({ redirect }: { redirect?: boolean } = {}) => {
     const fetchToken = async () => {
       const session = await client.getUserSession();
       if (session) {
-        setUser(session);
         setLoading(false);
         return;
       }
@@ -30,10 +28,7 @@ export default ({ redirect }: { redirect?: boolean } = {}) => {
         return;
       }
       try {
-        const u = await client.loginWithToken(token);
-        if (!user) {
-          setUser(u);
-        }
+        await client.loginWithToken(token);
       } catch (e) {
         history.push('/');
       }

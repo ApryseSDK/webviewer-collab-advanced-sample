@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Heading, Form, FormField, TextInput, Button, Anchor } from 'grommet';
 import { useHistory } from 'react-router-dom';
-import { useClient } from '../context/client';
-import { useUser } from '../context/user';
+import { useClient } from '@pdftron/collab-react';
 export default () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const client = useClient();
-  const { setUser } = useUser();
   const history = useHistory();
 
   const submit = async (event) => {
@@ -30,8 +28,7 @@ export default () => {
 
     if (resp.status === 200) {
       const json = await resp.json();
-      const user = await client.loginWithToken(json.token);
-      setUser(user);
+      await client.loginWithToken(json.token);
       history.push('/view?n=1');
     } else {
       setErrors({

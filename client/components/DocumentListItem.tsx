@@ -1,16 +1,16 @@
 import React from 'react';
 import { Text, Box } from 'grommet';
 import { Link } from 'react-router-dom';
-import { useCurrentDocument } from '../context/document';
 import { Document } from '@pdftron/collab-client';
 import DocText from './DocText';
+import { useCurrentDocument } from '@pdftron/collab-react';
 
 export type DocumentListItemProps = {
   document: Document;
 };
 
 export default ({ document }: DocumentListItemProps) => {
-  const { document: currentDocument } = useCurrentDocument();
+  const currentDocument = useCurrentDocument();
   const active = document.id === currentDocument?.id;
   const unreadCount = document?.unreadCount || 0;
   const isUnread = unreadCount > 0;

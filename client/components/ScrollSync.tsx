@@ -1,56 +1,35 @@
 import { Box, Button, Menu, Text } from 'grommet';
 import DocText from './DocText';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { ScrollSyncSession } from '@pdftron/collab-client';
-import { useClient } from '../context/client';
-import { useCurrentDocument } from '../context/document';
+import {
+  useClient,
+  useCurrentDocument,
+  useCurrentScrollSyncSession,
+  useScrollSync,
+} from '@pdftron/collab-react';
 
 export default function ScrollSync() {
   const client = useClient();
-  const { document: currentDocument } = useCurrentDocument();
+  const currentDocument = useCurrentDocument();
 
-  const [activeScrollSyncSession, setScrollSync] = useState<ScrollSyncSession | null>(null);
-  const [scrollSyncSessions, setScrollSyncSessions] = useState<ScrollSyncSession[]>([]);
+  const scrollSyncSessions = useScrollSync();
+  const activeScrollSyncSession = useCurrentScrollSyncSession();
 
   const inScrollSync = !!activeScrollSyncSession;
   const canStartScrollSync = client?.ScrollSyncManager.canCreateSession;
 
-  useEffect(() => {
-    if (!client || !currentDocument) return;
-    let scrollSyncStatusChangedUnsub = null;
-
-    (async () => {
-      const sessions = client.ScrollSyncManager.availableSessions;
-      setScrollSyncSessions([...sessions]);
-
-      scrollSyncStatusChangedUnsub = client.EventManager.subscribe(
-        'scrollSyncSessionsChanged',
-        (sessions) => {
-          setScrollSyncSessions([...sessions]);
-        }
-      );
-    })();
-
-    return () => {
-      setScrollSync(null);
-      scrollSyncStatusChangedUnsub && scrollSyncStatusChangedUnsub();
-    };
-  }, [client, currentDocument]);
-
   const createScrollSync = useCallback(async () => {
     if (!currentDocument) return;
-    const session = await currentDocument.createScrollSyncSession();
-    setScrollSync(session);
+    await currentDocument.createScrollSyncSession();
   }, [currentDocument]);
 
   const joinScrollSync = useCallback(async (session: ScrollSyncSession) => {
     await session.join();
-    setScrollSync(session);
   }, []);
 
   const leaveScrollSync = useCallback(async () => {
     await activeScrollSyncSession?.exit();
-    setScrollSync(null);
   }, [activeScrollSyncSession]);
 
   return (

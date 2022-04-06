@@ -2,15 +2,15 @@ import React, { useCallback, useState } from 'react';
 import Modal from './Modal';
 import InviteList from './InviteList';
 import { toast } from 'react-toastify';
-import { useCurrentDocument } from '../context/document';
 import { Box, Button, Text } from 'grommet';
+import { useCurrentDocument } from '@pdftron/collab-react';
 
 export type InviteModalProps = {
   onExit: () => void;
 };
 
 export default ({ onExit }: InviteModalProps) => {
-  const { document } = useCurrentDocument();
+  const document = useCurrentDocument();
   const [success, setSuccess] = useState(false);
   const submit = useCallback(
     async (list) => {

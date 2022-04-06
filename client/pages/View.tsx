@@ -6,23 +6,21 @@ import useRouting from '../hooks/useRouting';
 import { downloadFile } from '../util/s3';
 import useAuth from '../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
-import { useClient } from '../context/client';
 import { useInstance } from '../context/instance';
-import { useUser } from '../context/user';
-import { useCurrentDocument } from '../context/document';
 import { useHistory } from 'react-router-dom';
 import createSampleDoc from '../util/createSampleDoc';
 import Modal from '../components/Modal';
+import { useClient, useCurrentUser } from '@pdftron/collab-react';
 
 export default (props) => {
   const routerId = props?.match?.params?.id;
   const routerAnnotId = props?.match?.params?.annotId;
   const client = useClient();
+
   const [welcomeModal, showWelcomeModal] = useState(false);
   const [creatingWelcomeDoc, setCreatingWelcomeDoc] = useState(false);
   const { instance, setInstance } = useInstance();
-  const { user } = useUser();
-  const { setDocument } = useCurrentDocument();
+  const user = useCurrentUser();
 
   const { setViewPath } = useRouting();
   const history = useHistory();
@@ -58,6 +56,7 @@ export default (props) => {
       },
       ele
     ).then(async (instance) => {
+      // @ts-ignore
       client.setInstance(instance);
       instance.UI.openElements(['notesPanel']);
       setInstance(instance);
@@ -72,7 +71,6 @@ export default (props) => {
         const { blob } = await downloadFile(routerId);
         const doc = await user.getDocument(routerId);
         doc.view(blob);
-        setDocument(doc);
       }
     };
     go();

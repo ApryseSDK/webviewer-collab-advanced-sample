@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Menu, Text } from 'grommet';
 import { User } from '@pdftron/collab-client';
 import DocText from './DocText';
-import { useCurrentDocument } from '../context/document';
-import { useClient } from '../context/client';
+import { useClient, useCurrentDocument } from '@pdftron/collab-react';
 
 export default () => {
   const [members, setMembers] = useState<User[]>([]);
-  const { document: currentDocument } = useCurrentDocument();
+  const currentDocument = useCurrentDocument();
   const client = useClient();
 
   useEffect(() => {

@@ -8,8 +8,7 @@ import InviteList from './InviteList';
 import Modal from './Modal';
 import useRouting from '../hooks/useRouting';
 import { uploadFile } from '../util/s3';
-import { useUser } from '../context/user';
-import { useCurrentDocument } from '../context/document';
+import { useCurrentUser } from '@pdftron/collab-react';
 
 export type FileUploadProps = {
   onExit: () => void;
@@ -17,8 +16,7 @@ export type FileUploadProps = {
 
 export default ({ onExit }: FileUploadProps) => {
   const [selectedFile, setSelectedFile] = useState<File & { data: Blob }>();
-  const { user } = useUser();
-  const { setDocument } = useCurrentDocument();
+  const user = useCurrentUser();
   const [loading, setLoading] = useState(false);
   const { setViewPath } = useRouting();
 
@@ -37,10 +35,6 @@ export default ({ onExit }: FileUploadProps) => {
 
       if (list && list.length) {
         await document.inviteUsers(list);
-      }
-
-      if (document) {
-        setDocument(document);
       }
 
       setViewPath({

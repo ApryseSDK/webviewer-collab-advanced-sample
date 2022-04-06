@@ -3,13 +3,11 @@ import { Box, Button, Heading, Paragraph } from 'grommet';
 import {} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useClient } from '../context/client';
-import { useUser } from '../context/user';
 import useRouting from '../hooks/useRouting';
+import { useClient } from '@pdftron/collab-react';
 
 export default function Home() {
   const { user, loading } = useAuth({ redirect: false });
-  const { setUser } = useUser();
   const client = useClient();
   const router = useRouting();
 
@@ -18,8 +16,7 @@ export default function Home() {
       method: 'post',
     });
     const json = await resp.json();
-    const user = await client.loginWithToken(json.token);
-    setUser(user);
+    await client.loginWithToken(json.token);
     router.history.push('/view?n=1');
   }, [client]);
 

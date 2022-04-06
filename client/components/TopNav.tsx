@@ -4,11 +4,10 @@ import InviteModal from './InviteModal';
 import FileEdit from './FileEdit';
 import DocumentMembers from './DocumentMembers';
 import { useHistory } from 'react-router-dom';
-import { useCurrentDocument } from '../context/document';
-import { useUser } from '../context/user';
 import DocText from './DocText';
 import Snapshots from './Snapshots';
 import ScrollSync from './ScrollSync';
+import { useCurrentDocument, useCurrentUser } from '@pdftron/collab-react';
 
 const Divider = () => (
   <Box
@@ -20,8 +19,8 @@ const Divider = () => (
 );
 
 export default () => {
-  const { document: currentDocument, setDocument: setCurrentDocument } = useCurrentDocument();
-  const { user: currentUser } = useUser();
+  const currentDocument = useCurrentDocument();
+  const currentUser = useCurrentUser();
   const [showFileEdit, setShowFileEdit] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [isMember, setIsMember] = useState(false);
@@ -41,7 +40,6 @@ export default () => {
     const canJoin = await doc.canJoin();
     if (canJoin) {
       doc.join();
-      setCurrentDocument(doc);
       setIsMember(true);
     }
   }, [currentUser, currentDocument]);
@@ -49,7 +47,6 @@ export default () => {
   const leaveDocument = useCallback(async () => {
     await currentDocument.leave();
     history.push('/view');
-    setCurrentDocument(null);
   }, [currentDocument, history]);
 
   const markAllAnnotationsAsRead = useCallback(() => {
