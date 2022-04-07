@@ -23,17 +23,6 @@ export const getHash = (plainTextPassword: string): Promise<string> => {
   );
 };
 
-/**
- * Users bcrypt to validate a password hash
- */
-export const comparePassword = (plainTextPassword: string, hash: string): Promise<boolean> => {
-  return new Promise((resolve) => {
-    bcrypt.compare(plainTextPassword, hash, function (err, result) {
-      resolve(result);
-    });
-  });
-};
-
 export const getUserFromToken = async (token: string): Promise<UserAuth> => {
   if (token) {
     return new Promise((resolve) => {

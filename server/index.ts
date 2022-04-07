@@ -1,12 +1,11 @@
-import { getHash, getUserFromToken, comparePassword } from './auth';
-import CollabServer from '@pdftron/collab-server';
+import { getHash, getUserFromToken } from './auth';
+import CollabServer, { LogLevels } from '@pdftron/collab-server';
 import CollabDBPostgreSQL from '@pdftron/collab-db-postgresql';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { UserTypes } from '@pdftron/collab-db-postgresql/types/types/resolvers-types';
 import * as proxy from 'http-proxy-middleware';
 import * as path from 'path';
 import faker from 'faker';
@@ -43,6 +42,7 @@ const db = new CollabDBPostgreSQL({
     resolvers: db.getResolvers(),
     corsOption,
     getUserFromToken,
+    logLevel: LogLevels.DEBUG,
     unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
     permissions: {
       snapshot: {
@@ -83,7 +83,6 @@ app.post('/signup/random', async (req, res) => {
     process.env.COLLAB_KEY
   );
 
-  res.cookie('wv-collab-token', token);
   res.status(200).send({
     user: newUser,
     token,
@@ -93,96 +92,6 @@ app.post('/signup/random', async (req, res) => {
       username,
     },
   });
-});
-
-/**
- * Create a new user and return the User object
- */
-app.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body;
-  const passwordHash = await getHash(password);
-
-  const existing = await db.getUserByEmail(email);
-  let newUser;
-  if (existing) {
-    if (existing.type !== 'ANONYMOUS') {
-      return res.status(401).send({
-        error: 'User already exists',
-      });
-    }
-
-    newUser = await db.editUser({
-      id: existing.id,
-      userName: username,
-      password: passwordHash,
-      type: 'STANDARD' as UserTypes,
-    });
-  } else {
-    newUser = await db.createUser({
-      userName: username,
-      email,
-      password: passwordHash,
-    });
-  }
-
-  if (newUser) {
-    const token = jwt.sign(
-      {
-        id: newUser.id,
-        email,
-      },
-      process.env.COLLAB_KEY
-    );
-
-    res.cookie('wv-collab-token', token);
-
-    res.status(200).send({
-      user: newUser,
-      token,
-    });
-  } else {
-    res.status(400).send();
-  }
-});
-
-app.get('/token', async (req, res) => {
-  res.send({
-    token: req.cookies['wv-collab-token'],
-  });
-});
-
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const user = await db.getUserByEmail(email);
-  if (!user) {
-    res.status(401).send();
-    return;
-  }
-
-  // @ts-ignore
-  const valid = await comparePassword(password, user.password);
-  if (!valid) {
-    throw new Error('Password is invalid');
-  }
-
-  const token = jwt.sign(
-    {
-      id: user.id,
-      email,
-    },
-    process.env.COLLAB_KEY
-  );
-
-  res.cookie('wv-collab-token', token);
-
-  res.send({
-    user,
-    token,
-  });
-});
-
-app.post('/logout', async (req, res) => {
-  res.clearCookie('wv-collab-token').send();
 });
 
 /**

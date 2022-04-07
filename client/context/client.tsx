@@ -15,8 +15,6 @@ export const WithClient = ({ children }) => {
     new CollabClient({
       url: process.env.SERVER_URL,
       subscriptionUrl: process.env.SUBSCRIBE_URL,
-      logLevel: CollabClient.LogLevels.DEBUG,
-      filterLogsByTag: CollabClient.LogTags.USERNAMES,
       notificationHandler: CollabClient.defaultNotificationHandler({
         onClick: (data) => {
           const { type } = data;

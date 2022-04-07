@@ -4,7 +4,6 @@ import Sidebar from '../components/Sidebar';
 import TopNav from '../components/TopNav';
 import useRouting from '../hooks/useRouting';
 import { downloadFile } from '../util/s3';
-import useAuth from '../hooks/useAuth';
 import WebViewer from '@pdftron/webviewer';
 import { useInstance } from '../context/instance';
 import { useHistory } from 'react-router-dom';
@@ -25,10 +24,8 @@ export default (props) => {
   const { setViewPath } = useRouting();
   const history = useHistory();
 
-  useAuth();
-
   useEffect(() => {
-    if (user && history.location.search.includes('n=1')) {
+    if (instance && user && history.location.search.includes('n=1')) {
       setCreatingWelcomeDoc(true);
       showWelcomeModal(true);
       createSampleDoc(user).then((doc) => {
@@ -36,7 +33,7 @@ export default (props) => {
         history.push(`/view/${doc.id}`);
       });
     }
-  }, [history, user]);
+  }, [history, user, instance]);
 
   useEffect(() => {
     if (routerId) {
@@ -63,7 +60,7 @@ export default (props) => {
     });
   }, [client]);
 
-  // Load a new document when the documentId in the URL is updated
+  // // Load a new document when the documentId in the URL is updated
   useEffect(() => {
     const go = async () => {
       if (client && routerId && instance && user) {
@@ -76,7 +73,7 @@ export default (props) => {
     go();
   }, [routerId, client, instance, user]);
 
-  // Select the annotation when the annotation in the URL is updated
+  // // Select the annotation when the annotation in the URL is updated
   useEffect(() => {
     if (instance) {
       const { Core, UI } = instance;
