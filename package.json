@@ -36,10 +36,10 @@
     "deploy": "pm2 deploy production update"
   },
   "dependencies": {
-    "@pdftron/collab-client": "2.0.1",
-    "@pdftron/collab-db-postgresql": "2.0.1",
-    "@pdftron/collab-react": "^2.1.0-alpha.1",
-    "@pdftron/collab-server": "2.0.1",
+    "@pdftron/collab-client": "^2.1.0-alpha.3",
+    "@pdftron/collab-db-postgresql": "^2.1.0-alpha.3",
+    "@pdftron/collab-react": "^2.1.0-alpha.3",
+    "@pdftron/collab-server": "^2.1.0-alpha.2",
     "@pdftron/webviewer": "^8.3.3",
     "@types/passport": "^1.0.4",
     "@types/react": "^16.9.43",

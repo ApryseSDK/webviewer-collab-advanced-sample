@@ -1264,36 +1264,36 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pdftron/collab-client@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.0.1.tgz#a96482e9ff75b299ff922c9bbda295e1345d4660"
-  integrity sha512-adORymqB+6tWK9aADLYgyncxU8ELZUngaW3q+buCxjUOfefFMMLjQ3phX2Pmf9VxwQePBiDwDwG7UhVdXpCIgg==
+"@pdftron/collab-client@^2.1.0-alpha.3":
+  version "2.1.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-client/-/collab-client-2.1.0-alpha.3.tgz#3a85a52fe4da5a9abd21a048d2eb9fbc5e3afdf2"
+  integrity sha512-Vn5ngyHs1KUeEtDZIfxunh6VtmED1+8Z78c8VGP3tsQwVGN9ukGOsHRRFA8KbFyNW9kRyuo2ZgVwdWHzidJ+mA==
   dependencies:
     "@apollo/client" "^3.4.13"
     graphql "15.6.0"
     lodash "^4.17.20"
 
-"@pdftron/collab-db-postgresql@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.0.1.tgz#6ec24713da463802b6851f3c0fba33879666c438"
-  integrity sha512-hOyi0cmxWHjwmo74mq8M1Pw/FNf10f/NJvpYUQlCDwE+qOcjuT1o0GX4KsoLW5ruiX2c1CID26ohyRuexg/kJQ==
+"@pdftron/collab-db-postgresql@^2.1.0-alpha.3":
+  version "2.1.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-db-postgresql/-/collab-db-postgresql-2.1.0-alpha.3.tgz#c8fb1d0b7f395a4d89bfa21ae0479ecaa041baa9"
+  integrity sha512-DOVQ11yFzoU/bF+KCrfMdVDip8xGLsK6WlXViDeVQD0dLHmj0eHkh7I4C2lFXI09xfjBJFd6lBmZb5RBBqkUcg==
   dependencies:
     "@types/pg" "^7.14.3"
     joi "^17.4.0"
     pg "^8.3.3"
     yargs "^15.3.1"
 
-"@pdftron/collab-react@^2.1.0-alpha.1":
-  version "2.1.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-react/-/collab-react-2.1.0-alpha.1.tgz#0a1ef2b027b8e3c1f4599aeb126edc02edeedd24"
-  integrity sha512-cKABYIciLJrXZ3EhdNLTMwqqgV8K0hWZ4MSIAg+lvCjK39/7k40gUPgq502D3m1WD8GXNjjS9md3dO5faJcXWw==
+"@pdftron/collab-react@^2.1.0-alpha.3":
+  version "2.1.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-react/-/collab-react-2.1.0-alpha.3.tgz#6f1ebbec655987db6cf5f58f72f9c4f93c3a1c5e"
+  integrity sha512-FvaWLK6ix5kMv5KKSSXMSDXV8AIv0k1UNZ0fegwAvNhAx4QKYjCR5ARA8ZdV9BXC7EU7/52oEHbiSI1PoGwy7A==
   dependencies:
     react-hooks-global-state "^1.0.2"
 
-"@pdftron/collab-server@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.0.1.tgz#884d5adb23c248f25bf756cd08717dbf01ab61d0"
-  integrity sha512-VrE+/E5tLQxDRACRG0cVDwzawiLbnZAXGab+/lwY9HzTwyDctTONW7KTaYtJUz53dWwrgTqh+eLma5RZOso6RA==
+"@pdftron/collab-server@^2.1.0-alpha.2":
+  version "2.1.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@pdftron/collab-server/-/collab-server-2.1.0-alpha.2.tgz#5eb028515e340c24bd3a9487536e9814cc209dfc"
+  integrity sha512-LUbU4sT0q1urWVL4J9W+eFKm+HKVWtrKAE/jj80l0lGxXPjN2xqoBF/P656Ix30IY0Ydx6dmfG5pnmMcgzkhbg==
   dependencies:
     "@types/cookie" "^0.4.0"
     apollo-server "^3.1.2"
