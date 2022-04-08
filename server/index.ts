@@ -42,7 +42,6 @@ const db = new CollabDBPostgreSQL({
     resolvers: db.getResolvers(),
     corsOption,
     getUserFromToken,
-    logLevel: LogLevels.DEBUG,
     unknownInviteStrategy: CollabServer.UnknownInviteStrategies.CREATE,
     permissions: {
       snapshot: {

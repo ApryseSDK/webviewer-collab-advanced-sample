@@ -11,7 +11,7 @@ export default () => {
   const [showNewDoc, setShowNewDoc] = useState(false);
   const user = useCurrentUser();
   const currentDocument = useCurrentDocument();
-  const { documents, loading: isLoading } = useDocuments({ initialLoad: 1 });
+  const { documents, loading: isLoading } = useDocuments({ initialLoad: 'all' });
   const client = useClient();
   const history = useHistory();
 
